@@ -12,14 +12,20 @@ export const auth = betterAuth({
     }),
     emailAndPassword: {
         enabled: true,
-        autoSignIn:false
+        autoSignIn: false
     },
-    user:{
-        additionalFields:{
-            role:{
-                defaultValue:'user'
+    socialProviders: {
+        google: {
+            clientId: process.env.GOOGLE_CLIENT_ID,
+            clientSecret: process.env.GOOGLE_CLIENT_SECRET
+        }
+    },
+    user: {
+        additionalFields: {
+            role: {
+                defaultValue: 'user'
             },
-            isPremium:{
+            isPremium: {
                 defaultValue: false
             }
         }

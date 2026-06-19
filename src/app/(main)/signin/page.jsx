@@ -45,6 +45,9 @@ const SignInPage = () => {
   const handleGoogleSignIn = async () => {
     try {
       setGoogleLoading(true);
+      await signIn.social({
+        provider:"google"
+      })
     } catch (err) {
       toast.error("Google sign-in failed");
     } finally {

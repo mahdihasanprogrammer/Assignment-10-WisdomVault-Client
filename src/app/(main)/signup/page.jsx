@@ -1,6 +1,6 @@
 "use client";
 
-import { signUp } from '@/lib/auth-client';
+import { signIn, signUp } from '@/lib/auth-client';
 import { Button, Description, FieldError, Form, Input, Label, Spinner, TextField } from '@heroui/react';
 import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
@@ -10,7 +10,10 @@ import { FiCheckCircle, FiShield, FiCpu, FiEye, FiEyeOff, FiLayers } from 'react
 import { LuSparkles, LuUserPlus } from 'react-icons/lu';
 import { FcGoogle } from 'react-icons/fc';
 
+
+
 const SignUpPage = () => {
+
   const [loading, setLoading] = useState(false);
   const [googleLoading, setGoogleLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false); // Toggle Password visibility state
@@ -47,10 +50,13 @@ const SignUpPage = () => {
     }
   };
 
+ 
+
   const handleGoogleSignIn = async () => {
     try {
       setGoogleLoading(true);
-      // await authClient.signIn.social({ provider: 'google' })
+      const data =await signIn.social({ provider: "google"});
+      console.log('GData', data)
     } catch (err) {
       toast.error("Google sign-in failed");
     } finally {
@@ -193,7 +199,7 @@ const SignUpPage = () => {
           <p className="mt-6 text-center text-sm text-white/50">
             Already have an account?{" "}
             <Link 
-              href="/signin" 
+              href="/signin"
               className="font-semibold text-purple-400 hover:text-purple-300 transition-colors underline underline-offset-4 decoration-purple-500/40"
             >
               Sign In
