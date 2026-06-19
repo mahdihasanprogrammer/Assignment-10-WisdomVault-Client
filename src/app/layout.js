@@ -1,5 +1,6 @@
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import { Toaster } from "sonner";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -23,7 +24,7 @@ export default function RootLayout({ children }) {
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased dark`}
     >
       <body className="min-h-screen bg-[#070314] text-[#F3EEFF] antialiased overflow-x-hidden selection:bg-purple-500/30 selection:text-purple-200 relative flex flex-col">
-        
+
         {/* Deep Cyber-Glass Background Base */}
         <div className="fixed inset-0 -z-30 bg-[#060212]" />
 
@@ -32,13 +33,13 @@ export default function RootLayout({ children }) {
         <div className="fixed bottom-[-10%] left-[-10%] h-[45vw] w-[45vw] rounded-full bg-linear-to-tr from-indigo-600/10 via-purple-600/10 to-transparent blur-[140px] pointer-events-none -z-20" />
         <div className="fixed top-[35%] left-[25%] h-75 w-75 rounded-full bg-fuchsia-500/5 blur-[120px] pointer-events-none -z-20" />
 
-       
+
 
         {/* Global Structural Layout Wrapper */}
         <main className="flex-1 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8  relative z-10">
           {children}
         </main>
-
+        <Toaster />
       </body>
     </html>
   );
