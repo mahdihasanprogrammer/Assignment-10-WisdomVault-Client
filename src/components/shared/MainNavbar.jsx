@@ -40,7 +40,7 @@ const MainNavbar = () => {
     setIsDropdownOpen(false); 
     setIsMobileMenuOpen(false);
     await authClient.signOut();
-    router.replace('/signin');
+    router.push('/signin');
     router.refresh();
   };
 
