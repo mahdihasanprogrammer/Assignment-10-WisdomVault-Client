@@ -27,14 +27,14 @@ const Footer = () => {
   ];
 
   return (
-    <footer className="w-full bg-[#080418] border-t border-white/10 text-white pt-16 pb-8 px-4 md:px-8 lg:px-16 mt-auto">
+    <footer className="w-full bg-[#080418] border-t border-white/10 text-white pt-16 pb-8 px-4 sm:px-6 lg:px-8 mt-auto">
       {/* Top Grid Container */}
       <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 mb-12">
         
         {/* Brand Column */}
         <div className="flex flex-col gap-4">
           <div className="flex items-center gap-2">
-            <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-purple-600 to-indigo-600 flex items-center justify-center shadow-lg shadow-purple-500/20">
+            <div className="w-9 h-9 rounded-xl bg-linear-to-tr from-purple-600 to-indigo-600 flex items-center justify-center shadow-lg shadow-purple-500/20">
               <LuSparkles className="text-white w-4 h-4 animate-pulse" />
             </div>
             <span className="font-black text-xl tracking-wide">
@@ -55,7 +55,7 @@ const Footer = () => {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label={social.label}
-                  className="w-9 h-9 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-white/70 hover:text-purple-400 hover:bg-white/10 border-transparent hover:border-white/20 transition-all duration-200 active:scale-95"
+                  className="w-9 h-9 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-white/70 hover:text-purple-400 hover:bg-white/10 hover:border-white/20 transition-all duration-200 active:scale-95"
                 >
                   <Icon className="w-4 h-4" />
                 </a>
@@ -83,19 +83,19 @@ const Footer = () => {
           <h3 className="text-sm font-bold uppercase tracking-widest text-purple-400">Contact Us</h3>
           <ul className="flex flex-col gap-3.5 text-sm font-medium text-white/60">
             <li className="flex items-center gap-3">
-              <FiMail className="w-4 h-4 text-purple-400 flex-shrink-0" />
+              <FiMail className="w-4 h-4 text-purple-400 flex shrink-0" />
               <a href="mailto:support@wisdomvault.com" className="hover:text-white truncate">
                 support@wisdomvault.com
               </a>
             </li>
             <li className="flex items-center gap-3">
-              <FiPhone className="w-4 h-4 text-purple-400 flex-shrink-0" />
+              <FiPhone className="w-4 h-4 text-purple-400 flex shrink-0" />
               <a href="tel:+8801234567890" className="hover:text-white">
                 +880 1234-567890
               </a>
             </li>
             <li className="flex items-center gap-3">
-              <FiMapPin className="w-4 h-4 text-purple-400 flex-shrink-0" />
+              <FiMapPin className="w-4 h-4 text-purple-400 flex shrink-0" />
               <span>Dhaka, Bangladesh</span>
             </li>
           </ul>

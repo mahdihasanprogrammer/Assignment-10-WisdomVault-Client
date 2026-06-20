@@ -66,7 +66,7 @@ const MainNavbar = () => {
         </Link>
 
         {/* CENTRAL NAV PILL */}
-        <div className="hidden md:flex gap-1 items-center bg-white/5 border border-white/10 p-1.5 rounded-2xl backdrop-blur-xl">
+        <div className="hidden lg:flex gap-1 items-center bg-white/5 border border-white/10 p-1.5 rounded-2xl backdrop-blur-xl">
           {/* Public links always load immediately */}
           {publicLinks.map((link) => (
             <Link

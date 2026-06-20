@@ -30,7 +30,7 @@ const DashboardSideBar = async () => {
     const navItems = DashboardNavLinks[user?.role || "user"] || [];
 
     return (
-        <aside className="hidden md:flex flex-col h-screen w-64 fixed left-0 top-0 z-40 bg-linear-to-b from-[#0e0926]/90 to-[#080418]/95 backdrop-blur-2xl border-r border-white/10 p-5 justify-between">
+        <aside className="hidden md:flex flex-col h-screen w-64 bg-linear-to-b from-[#0e0926]/90 to-[#080418]/95 backdrop-blur-2xl border-r border-white/10 p-5 justify-between">
             
             {/* Top Container: Logo and Links */}
             <div className="flex flex-col gap-6 w-full">
