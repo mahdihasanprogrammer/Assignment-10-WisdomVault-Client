@@ -31,7 +31,7 @@ export default function WhyLearningMatters() {
       {/* Background Subtle Glows */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-indigo-600/[0.07] rounded-full blur-3xl pointer-events-none" />
 
-      <div className="max-w-7xl mx-auto relative z-10">
+      <div className=" mx-auto relative z-10">
         
         {/* Section Header */}
         <div className="text-center max-w-xl mx-auto mb-16 flex flex-col items-center space-y-3">
@@ -53,7 +53,7 @@ export default function WhyLearningMatters() {
             return (
               <div
                 key={index}
-                className="group relative bg-white/1 hover:bg-white/3 border border-white/5 hover:border-purple-500/30 rounded-2xl p-6 transition-all duration-300 hover:-translate-y-1.5 flex flex-col items-start text-left shadow-xl shadow-black/40"
+                className="group relative bg-white/1 hover:bg-white/3 border border-white/10 hover:border-purple-500/30 rounded-2xl p-6 transition-all duration-300 hover:-translate-y-1.5 flex flex-col items-start text-left shadow-xl shadow-black/40"
               >
                 {/* Glow effect inside card on hover */}
                 <div className="absolute inset-0 bg-linear-to-br from-purple-600/0 via-purple-600/0 to-purple-600/3 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />

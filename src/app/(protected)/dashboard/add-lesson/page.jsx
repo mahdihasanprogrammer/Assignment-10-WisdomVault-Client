@@ -1,9 +1,12 @@
-import React from 'react';
+import { getUserSession } from "@/lib/session";
+import AddLessonForm from "./AddLessonForm";
 
-const AddLessonPage = () => {
+
+const AddLessonPage =async () => {
+    const user = await getUserSession()
     return (
         <div>
-            this add lesson page
+            <AddLessonForm user ={user}/>
         </div>
     );
 };
