@@ -22,12 +22,12 @@ const DashboardSideBar = async () => {
     ];
 
     const user = await getUserSession();
-    const userAndAdminNavLinks = {
+    const DashboardNavLinks = {
         "user": userLinks, 
         "admin": adminLinks
     };
     
-    const navItems = userAndAdminNavLinks[user?.role || "user"] || [];
+    const navItems = DashboardNavLinks[user?.role || "user"] || [];
 
     return (
         <aside className="hidden md:flex flex-col h-screen w-64 fixed left-0 top-0 z-40 bg-linear-to-b from-[#0e0926]/90 to-[#080418]/95 backdrop-blur-2xl border-r border-white/10 p-5 justify-between">

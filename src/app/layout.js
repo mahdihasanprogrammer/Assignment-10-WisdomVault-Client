@@ -36,7 +36,7 @@ export default function RootLayout({ children }) {
 
 
         {/* Global Structural Layout Wrapper */}
-        <main className="flex-1 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8  relative z-10">
+        <main className="flex-1 w-full container mx-auto px-4 sm:px-6 lg:px-8  relative">
           {children}
         </main>
         <Toaster />

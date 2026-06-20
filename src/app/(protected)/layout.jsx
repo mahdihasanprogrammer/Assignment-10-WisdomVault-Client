@@ -1,11 +1,11 @@
 import DashboardSideBar from '@/components/dashboard/DashboardSideBar';
 import DashboardNavbar from '@/components/shared/DashboardNavbar';
-import React from 'react';
+
 
 
 const ProtectedLayout = ({children}) => {
     return (
-        <div className='flex flex-col'>
+        <div className='flex flex-col z-80'>
             <DashboardNavbar/>
            <div className='flex min-h-screen'>
              <DashboardSideBar/>

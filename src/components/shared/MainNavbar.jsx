@@ -22,12 +22,14 @@ const MainNavbar = () => {
   const publicLinks = [
     { label: "Home", href: "/" },
     { label: "Public Lessons", href: "/public-lessons" },
+
   ];
 
   // 2. Conditional Protected Links Matrix
   const protectedLinks = user?.role === 'user' ? [
     { label: "Add Lesson", href: "/dashboard/add-lesson" },
-    { label: "My Lessons", href: "/dashboard/my-lessons" }
+    { label: "My Lessons", href: "/dashboard/my-lessons" },
+    { label: "Favorites", href: "/dashboard/favorites" }
   ] : [];
 
   // Dropdown Items Matrix Mapping
@@ -37,7 +39,7 @@ const MainNavbar = () => {
   ];
 
   const handleLogout = async () => {
-    setIsDropdownOpen(false); 
+    setIsDropdownOpen(false);
     setIsMobileMenuOpen(false);
     await authClient.signOut();
     router.push('/signin');
@@ -52,7 +54,7 @@ const MainNavbar = () => {
   return (
     <nav className="border-b border-white/10 sticky top-0 z-50 bg-[#080418]/70 backdrop-blur-xl shadow-2xl">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
-        
+
         {/* BRAND IDENTITY */}
         <Link href="/" className="flex items-center gap-2.5 group">
           <div className="w-9 h-9 rounded-xl bg-linear-to-tr from-purple-600 to-indigo-600 flex items-center justify-center shadow-lg shadow-purple-500/30 group-hover:scale-105 transition-transform duration-300">
@@ -67,15 +69,15 @@ const MainNavbar = () => {
         <div className="hidden md:flex gap-1 items-center bg-white/5 border border-white/10 p-1.5 rounded-2xl backdrop-blur-xl">
           {/* Public links always load immediately */}
           {publicLinks.map((link) => (
-            <Link 
-              key={link.href} 
-              href={link.href} 
+            <Link
+              key={link.href}
+              href={link.href}
               className={`${baseLinkStyle} ${pathname === link.href ? activeLinkStyle : inactiveLinkStyle}`}
             >
               {link.label}
             </Link>
           ))}
-          
+
           {/* Only protected segment observes the loading stream wrapper */}
           {isPending ? (
             <div className="bg-purple-500/10 border border-purple-500/20 px-4 py-1.5 rounded-xl text-xs text-purple-400 animate-pulse font-medium tracking-wide">
@@ -83,9 +85,9 @@ const MainNavbar = () => {
             </div>
           ) : (
             protectedLinks.map((link) => (
-              <Link 
-                key={link.href} 
-                href={link.href} 
+              <Link
+                key={link.href}
+                href={link.href}
                 className={`${baseLinkStyle} ${pathname === link.href ? activeLinkStyle : inactiveLinkStyle}`}
               >
                 {link.label}
@@ -121,8 +123,8 @@ const MainNavbar = () => {
               {user ? (
                 /* AUTHENTICATED DROPDOWN CONTAINER */
                 <div className="relative">
-                  <button 
-                    onClick={() => setIsDropdownOpen(!isDropdownOpen)} 
+                  <button
+                    onClick={() => setIsDropdownOpen(!isDropdownOpen)}
                     className="flex items-center relative p-0.5 rounded-full group active:scale-95 transition-transform cursor-pointer"
                   >
                     <div className="absolute inset-0 rounded-full bg-linear-to-r from-purple-500 to-indigo-500 opacity-60 blur-[1px]" />
@@ -134,7 +136,7 @@ const MainNavbar = () => {
                     </Avatar>
                     <span className="absolute z-20 right-0 bottom-0 size-2.5 rounded-full bg-green-500 ring-2 ring-[#080418] animate-pulse" />
                   </button>
-                  
+
                   {isDropdownOpen && (
                     <>
                       <div className="fixed inset-0 z-40" onClick={() => setIsDropdownOpen(false)} />
@@ -146,10 +148,10 @@ const MainNavbar = () => {
 
                         {/* Mapped Dropdown System Items */}
                         {dropdownItems.map((item) => (
-                          <Link 
+                          <Link
                             key={item.href}
-                            href={item.href} 
-                            onClick={() => setIsDropdownOpen(false)} 
+                            href={item.href}
+                            onClick={() => setIsDropdownOpen(false)}
                             className="flex items-center gap-2 px-4 py-2 text-sm text-white hover:bg-white/10 hover:backdrop-blur-md transition-all"
                           >
                             {item.icon} {item.label}
@@ -211,7 +213,7 @@ const MainNavbar = () => {
               {link.label}
             </Link>
           ))}
-          
+
           {/* Protected links with dynamic wrapper check on mobile */}
           {!isPending && protectedLinks.map((link, index) => (
             <Link key={`protected-mob-${index}`} href={link.href} onClick={() => setIsMobileMenuOpen(false)} className="text-xs font-medium text-white px-3 py-2 rounded-lg hover:bg-white/10">
