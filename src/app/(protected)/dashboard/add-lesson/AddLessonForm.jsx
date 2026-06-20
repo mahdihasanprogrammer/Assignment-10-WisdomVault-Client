@@ -1,21 +1,25 @@
 "use client";
 
-import { uploadLessonImageToImgBB } from "@/lib/actions/lessons";
+import { createLesson, uploadLessonImageToImgBB } from "@/lib/actions/lessons";
 import { Button, FieldError, Form, Input, Label, TextArea, TextField, Select, ListBox, Tooltip } from "@heroui/react";
+
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { FiUploadCloud, FiTrash2, FiLoader, FiCheckCircle } from "react-icons/fi";
+
 
 const AddLessonForm = ({ user }) => {
     const [lessonImage, setLessonImage] = useState('');
     const [uploading, setUploading] = useState(false);
+    const [isPublishing, setIsPublishing] = useState(false); 
+    
 
     const categories = [
         { id: "personal-growth", label: "Personal Growth" },
         { id: "career", label: "Career" },
         { id: "relationships", label: "Relationships" },
-        { id: "mindset", label: "Mindset" },
-        { id: "mistakes-learned", label: "Mistakes Learned" },
+        { id: "mindset", label: "Mindset" },       { id: "mistakes-learned", label: "Mistakes Learned" },
     ];
     
     const emotionalTones = [
@@ -53,19 +57,40 @@ const AddLessonForm = ({ user }) => {
             setLessonImage(url);
         } catch (err) {
             console.log(err.message);
+            toast.error("Image upload failed!");
         } finally {
             setUploading(false);
         }
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const form = new FormData(e.currentTarget);
-            const formData = Object.fromEntries(form.entries());
-            console.log('formdata', { ...formData, lessonImage });
+            setIsPublishing(true);
+            
+            const form = e.currentTarget;
+            const formData = new FormData(form);
+            const formValues = Object.fromEntries(formData.entries());
+
+            const updateFormData = {
+                ...formValues,
+                status: "Pending",
+                isFeatured: false,
+                lessonImage: lessonImage,
+                creatorId: user?.id,
+                creatorName: user?.name,
+                creatorEmail: user?.email,
+                creatorImage: user?.image
+            };
+
+            const result = await createLesson(updateFormData);
+            
+
         } catch (err) {
-            console.log(err.message || 'something went wrong');
+            console.log(err.message);
+            toast.error(err.message || "Something went wrong");
+        } finally {
+            setIsPublishing(false); // লোডিং শেষ
         }
     };
 
@@ -89,14 +114,14 @@ const AddLessonForm = ({ user }) => {
                     {/* Left Columns Container */}
                     <div className="flex flex-col gap-5">
                         {/* Title Field */}
-                        <TextField isRequired name="lessonTitle" type="text" className="w-full">
+                        <TextField isRequired name="lessonTitle" type="text" className="w-full" isDisabled={isPublishing}>
                             <Label className="text-sm font-bold text-white/90 mb-2 block tracking-wide">Lesson Title</Label>
                             <Input placeholder="E.g., Production DB Drop & What I Learned" className="bg-white/[0.07] hover:bg-white/1 border border-white/10 rounded-xl text-white text-sm transition-colors focus:border-purple-500/50" />
                             <FieldError className="text-xs text-rose-400 mt-1" />
                         </TextField>
 
                         {/* Category Dropdown */}
-                        <Select isRequired className="w-full" name="category" placeholder="Select a domain">
+                        <Select isRequired className="w-full" name="category" placeholder="Select a domain" isDisabled={isPublishing}>
                             <Label className="text-sm font-bold text-white/90 mb-2 block tracking-wide">Category</Label>
                             <Select.Trigger className="bg-white/[0.07] hover:bg-white/1 border border-white/10 rounded-xl text-white text-sm transition-colors">
                                 <Select.Value />
@@ -116,7 +141,7 @@ const AddLessonForm = ({ user }) => {
                         </Select>
 
                         {/* Emotional Tone Dropdown */}
-                        <Select isRequired className="w-full" name="emotionalTone" placeholder="Core mindset during event">
+                        <Select isRequired className="w-full" name="emotionalTone" placeholder="Core mindset during event" isDisabled={isPublishing}>
                             <Label className="text-sm font-bold text-white/90 mb-2 block tracking-wide">Emotional Tone</Label>
                             <Select.Trigger className="bg-white/[0.07] hover:bg-white/1 border border-white/10 rounded-xl text-white text-sm transition-colors">
                                 <Select.Value />
@@ -140,7 +165,7 @@ const AddLessonForm = ({ user }) => {
                     <div className="flex flex-col h-full justify-between">
                         <Label className="text-sm font-bold text-white/90 mb-2 block tracking-wide">Visual Context (Optional)</Label>
                         
-                        <div className="relative border-2 border-dashed border-white/15 hover:border-purple-500/50 rounded-2xl bg-white/2 hover:bg-white/4 h-full min-h-45 flex flex-col items-center justify-center p-4 transition-all group overflow-hidden">
+                        <div className={`relative border-2 border-dashed border-white/15 rounded-2xl bg-white/2 h-full min-h-45 flex flex-col items-center justify-center p-4 transition-all group overflow-hidden ${isPublishing ? "opacity-50 pointer-events-none" : "hover:border-purple-500/50 hover:bg-white/4"}`}>
                             {uploading ? (
                                 <div className="flex flex-col items-center gap-2 text-purple-400">
                                     <FiLoader className="w-8 h-8 animate-spin" />
@@ -167,7 +192,7 @@ const AddLessonForm = ({ user }) => {
                                 </div>
                             )}
                             
-                            {!lessonImage && !uploading && (
+                            {!lessonImage && !uploading && !isPublishing && (
                                 <input 
                                     type="file" 
                                     accept="image/*" 
@@ -180,7 +205,7 @@ const AddLessonForm = ({ user }) => {
                 </div>
 
                 {/* Full Width Row: Description Textarea */}
-                <TextField isRequired className="w-full">
+                <TextField isRequired className="w-full" isDisabled={isPublishing}>
                     <Label className="text-sm font-bold text-white/90 mb-2 block tracking-wide">Detailed Breakdown</Label>
                     <TextArea 
                         aria-label="Detailed notes"
@@ -196,7 +221,7 @@ const AddLessonForm = ({ user }) => {
                 {/* Visibility and Subscription Constraints Row */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 w-full pt-2">
                     {/* Visibility */}
-                    <Select isRequired className="w-full" name="visibility" placeholder="Select access view">
+                    <Select isRequired className="w-full" name="visibility" placeholder="Select access view" isDisabled={isPublishing}>
                         <Label className="text-sm font-bold text-white/90 mb-2 block tracking-wide">Visibility</Label>
                         <Select.Trigger className="bg-white/[0.07] hover:bg-white/1 border border-white/10 rounded-xl text-white text-sm transition-colors">
                             <Select.Value />
@@ -225,7 +250,7 @@ const AddLessonForm = ({ user }) => {
                                     name="accessLevel"
                                     placeholder="Free, visible to all users"
                                     defaultSelectedKeys={["free"]}
-                                    isDisabled={!isPremiumUser}
+                                    isDisabled={!isPremiumUser || isPublishing}
                                 >
                                     <Label className="text-sm font-bold text-white/90 mb-2 tracking-wide flex items-center gap-1.5">
                                         Access Tier
@@ -256,14 +281,24 @@ const AddLessonForm = ({ user }) => {
                     </div>
                 </div>
 
-                {/* Main Publish Button Only */}
+                {/* Main Submit Button Loader Fallback */}
                 <div className="flex items-center justify-end pt-6 border-t border-white/10 mt-2">
                     <Button 
                         type="submit" 
-                        className="px-8 py-3.5 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 hover:opacity-95 text-white text-sm font-bold transition-all active:scale-[0.98] shadow-xl shadow-purple-500/20 border border-white/20 flex items-center gap-2 cursor-pointer"
+                        disabled={isPublishing}
+                        className="px-8 py-3.5 rounded-xl bg-linear-to-r from-purple-600 to-indigo-600 hover:opacity-95 text-white text-sm font-bold transition-all active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed shadow-xl shadow-purple-500/20 border border-white/20 flex items-center gap-2 cursor-pointer"
                     >
-                        <span>Publish Log</span>
-                        <FiCheckCircle className="w-4 h-4" />
+                        {isPublishing ? (
+                            <>
+                                <span>Publishing Log...</span>
+                                <FiLoader className="w-4 h-4 animate-spin" />
+                            </>
+                        ) : (
+                            <>
+                                <span>Publish Log</span>
+                                <FiCheckCircle className="w-4 h-4" />
+                            </>
+                        )}
                     </Button>
                 </div>
 

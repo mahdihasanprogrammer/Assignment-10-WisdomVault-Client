@@ -30,7 +30,7 @@ const DashboardSideBar = async () => {
     const navItems = DashboardNavLinks[user?.role || "user"] || [];
 
     return (
-        <aside className="hidden md:flex flex-col h-screen w-64 bg-linear-to-b from-[#0e0926]/90 to-[#080418]/95 backdrop-blur-2xl border-r border-white/10 p-5 justify-between">
+        <aside className="hidden md:flex flex-col min-h-screen w-64 bg-linear-to-b from-[#0e0926]/90 to-[#080418]/95 backdrop-blur-2xl border-r border-white/10 p-5 justify-between">
             
             {/* Top Container: Logo and Links */}
             <div className="flex flex-col gap-6 w-full">
@@ -49,7 +49,7 @@ const DashboardSideBar = async () => {
                 </div>
 
                 {/* Main Navigation links */}
-                <nav className="flex flex-col gap-1.5 w-full">
+                <nav className="flex flex-col gap-1.5 w-full ">
                     {navItems.map((item) => {
                         const Icon = item.icon;
                         return (
@@ -67,7 +67,7 @@ const DashboardSideBar = async () => {
             </div>
 
             {/* Bottom Account Card with Larger Text and next/image */}
-            <div className="w-full flex flex-col gap-3 pt-4 border-t border-white/5">
+            <div className="w-full flex flex-col gap-3 border-t border-white/5">
                 {user && (
                     <div className="flex items-center gap-3 p-3 rounded-xl bg-white/2 border border-white/5">
                         {/* next/image wrapper for Avatar */}

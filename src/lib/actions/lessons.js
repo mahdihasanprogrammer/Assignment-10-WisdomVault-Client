@@ -1,6 +1,8 @@
 "use server"
 
 import { toast } from "sonner";
+import { serverMutation } from "../core/server";
+import { redirect } from "next/navigation";
 
 export const uploadLessonImageToImgBB =async (file) =>{
     const formData = new FormData();
@@ -21,4 +23,13 @@ export const uploadLessonImageToImgBB =async (file) =>{
     
     return url
 
+}
+
+export const createLesson = async (lessonData) =>{
+    const result= serverMutation("/api/create-lesson", lessonData);
+
+    if(result.insertedId){
+        toast.success('lesson created successful!')
+        redirect(`/dashboard/my-lessons`)
+    }
 }
