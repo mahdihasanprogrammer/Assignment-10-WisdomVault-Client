@@ -105,7 +105,7 @@ export default function Hero() {
 
                             {/* Right Column: Image Container with Embedded Slider Buttons */}
                             <div className="lg:col-span-6 w-full flex items-center justify-center relative group/box">
-                                <div className="relative w-full aspect-video md:aspect-square lg:max-w-lg rounded-3xl overflow-hidden bg-white/0.5 border border-white/10 shadow-2xl p-2 flex items-center justify-center">
+                                <div className="relative w-full aspect-video lg:aspect-square lg:max-w-lg rounded-3xl overflow-hidden bg-white/0.5 border border-white/10 shadow-2xl p-2 flex items-center justify-center">
                                     <Image
                                         src={slide.imgSrc}
                                         alt={slide.titleNormal}
