@@ -5,7 +5,7 @@ import AddLessonForm from "./AddLessonForm";
 const AddLessonPage =async () => {
     const user = await getUserSession()
     return (
-        <div>
+        <div className="py-10">
             <AddLessonForm user ={user}/>
         </div>
     );

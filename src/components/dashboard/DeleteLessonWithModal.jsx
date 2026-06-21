@@ -63,7 +63,7 @@ export function DeleteLessonWithModal({ lesson }) {
             <AlertDialog.Body className="px-6 py-3">
               <p className="text-sm leading-relaxed text-white/60">
                 This will permanently delete your lesson log 
-                <strong className="text-white font-semibold"> "{lesson.lessonTitle || 'Untitled Lesson'}"</strong> 
+                <strong className="text-white font-semibold"> {lesson.lessonTitle || 'Untitled Lesson'}</strong> 
                 and all related analytical contents. This action cannot be undone.
               </p>
             </AlertDialog.Body>
