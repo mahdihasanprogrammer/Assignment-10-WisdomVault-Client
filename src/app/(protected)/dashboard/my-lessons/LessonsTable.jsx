@@ -7,8 +7,9 @@ import {
     FiEye, FiLock, FiDollarSign, FiUnlock,
     FiInfo, FiEdit3, FiTrash2, FiHeart, FiMessageSquare, FiBookOpen, FiPlus 
 } from 'react-icons/fi';
+import { EditLessonsFormWithModal } from '@/components/dashboard/EditLessonsFormWithModal';
 
-const LessonsTable = ({ lessons }) => {
+const LessonsTable = ({ lessons, user }) => {
     
     const renderDate = (createdAt) => {
         const dateStr = createdAt?.$date || createdAt;
@@ -149,9 +150,8 @@ const LessonsTable = ({ lessons }) => {
                                             <Button title="View Details" size="sm" isIconOnly className="bg-white/5 border border-white/10 text-white hover:bg-white/10 rounded-xl h-8 w-8 cursor-pointer">
                                                 <FiInfo className="w-3.5 h-3.5" />
                                             </Button>
-                                            <Button title="Edit Lesson" size="sm" isIconOnly className="bg-purple-500/10 border border-purple-500/20 text-purple-400 hover:bg-purple-500/20 rounded-xl h-8 w-8 cursor-pointer">
-                                                <FiEdit3 className="w-3.5 h-3.5" />
-                                            </Button>
+                                          
+                                            <EditLessonsFormWithModal lesson={lesson} user={user}/>
                                             <Button title="Delete Lesson" size="sm" isIconOnly className="bg-rose-500/10 border border-rose-500/20 text-rose-400 hover:bg-rose-500/20 rounded-xl h-8 w-8 cursor-pointer">
                                                 <FiTrash2 className="w-3.5 h-3.5" />
                                             </Button>

@@ -4,6 +4,7 @@ import Image from "next/image"; // Next.js-এর অফিশিয়াল ই�
 import { FiAlertTriangle, FiBookOpen, FiHeart, FiPlusCircle, FiUser, FiUsers } from "react-icons/fi";
 import { IoHome } from "react-icons/io5";
 import { LuSparkles } from "react-icons/lu";
+import { FaArrowLeftLong } from "react-icons/fa6";
 
 const DashboardSideBar = async () => {
     const userLinks = [
@@ -23,18 +24,18 @@ const DashboardSideBar = async () => {
 
     const user = await getUserSession();
     const DashboardNavLinks = {
-        "user": userLinks, 
+        "user": userLinks,
         "admin": adminLinks
     };
-    
+
     const navItems = DashboardNavLinks[user?.role || "user"] || [];
 
     return (
-        <aside className="hidden md:flex flex-col min-h-screen w-64 bg-linear-to-b from-[#0e0926]/90 to-[#080418]/95 backdrop-blur-2xl border-r border-white/10 p-5 justify-between">
-            
+        <aside className="hidden md:flex flex-col min-h-screen w-60 bg-linear-to-b from-[#0e0926]/90 to-[#080418]/95 backdrop-blur-2xl border-r border-white/10 p-5 justify-between">
+
             {/* Top Container: Logo and Links */}
             <div className="flex flex-col gap-6 w-full">
-                
+
                 {/* Branding Brand Logo Area */}
                 <div className="flex items-center gap-3 px-2 py-3 border-b border-white/5">
                     <div className="w-9 h-9 rounded-xl bg-linear-to-tr from-purple-600 to-indigo-600 flex items-center justify-center shadow-lg shadow-purple-500/20">
@@ -48,12 +49,17 @@ const DashboardSideBar = async () => {
                     </div>
                 </div>
 
+                <Link href="/" className="flex items-center gap-2 
+                text-xs hover:text-purple-400 px-2 font-medium
+                 transition-all duration-300">
+                    <FaArrowLeftLong />  Back to Home
+                </Link>
                 {/* Main Navigation links */}
                 <nav className="flex flex-col gap-1.5 w-full ">
                     {navItems.map((item) => {
                         const Icon = item.icon;
                         return (
-                            <Link 
+                            <Link
                                 href={item.href}
                                 key={item.label}
                                 className="flex items-center gap-3.5 rounded-xl px-4 py-3 text-sm font-semibold tracking-wide text-white hover:text-purple-300 bg-transparent hover:bg-white/4 border border-transparent hover:border-white/5 transition-all duration-200 group active:scale-[0.98]"
@@ -73,10 +79,10 @@ const DashboardSideBar = async () => {
                         {/* next/image wrapper for Avatar */}
                         <div className="relative w-10 h-10 rounded-full overflow-hidden bg-purple-500/20 border border-purple-500/30 flex  shrink-0  items-center justify-center text-white font-bold text-sm">
                             {user.image ? (
-                                <Image 
-                                    src={user.image} 
-                                    alt={user.name || "User profile"} 
-                                    fill 
+                                <Image
+                                    src={user.image}
+                                    alt={user.name || "User profile"}
+                                    fill
                                     className="object-cover"
                                     sizes="40px"
                                     priority

@@ -2,26 +2,28 @@
 
 import { createLesson, uploadLessonImageToImgBB } from "@/lib/actions/lessons";
 import { Button, FieldError, Form, Input, Label, TextArea, TextField, Select, ListBox, Tooltip } from "@heroui/react";
+import { form } from "motion/react-client";
 
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { FiUploadCloud, FiTrash2, FiLoader, FiCheckCircle } from "react-icons/fi";
+import { toast } from "sonner";
 
 
 const AddLessonForm = ({ user }) => {
     const [lessonImage, setLessonImage] = useState('');
     const [uploading, setUploading] = useState(false);
-    const [isPublishing, setIsPublishing] = useState(false); 
-    
+    const [isPublishing, setIsPublishing] = useState(false);
+    const router = useRouter()
 
     const categories = [
         { id: "personal-growth", label: "Personal Growth" },
         { id: "career", label: "Career" },
         { id: "relationships", label: "Relationships" },
-        { id: "mindset", label: "Mindset" },       { id: "mistakes-learned", label: "Mistakes Learned" },
+        { id: "mindset", label: "Mindset" }, { id: "mistakes-learned", label: "Mistakes Learned" },
     ];
-    
+
     const emotionalTones = [
         { id: "motivational", label: "Motivational" },
         { id: "sad", label: "Sad" },
@@ -34,12 +36,12 @@ const AddLessonForm = ({ user }) => {
         { id: "heartfelt", label: "Heartfelt" },
         { id: "uplifting", label: "Uplifting" },
     ];
-    
+
     const visibilities = [
         { id: "public", label: "Public - All users can see" },
         { id: "private", label: "Private - Only you can see" },
     ];
-    
+
     const accessLevels = [
         { id: "free", label: "Free" },
         { id: "premium", label: "Premium" },
@@ -67,7 +69,7 @@ const AddLessonForm = ({ user }) => {
         e.preventDefault();
         try {
             setIsPublishing(true);
-            
+
             const form = e.currentTarget;
             const formData = new FormData(form);
             const formValues = Object.fromEntries(formData.entries());
@@ -84,13 +86,19 @@ const AddLessonForm = ({ user }) => {
             };
 
             const result = await createLesson(updateFormData);
-            
+           
+            if (result.insertedId) {
+                toast.success('lesson created successful!')
+                router.push(`/dashboard/my-lessons`)
+            }
+
 
         } catch (err) {
             console.log(err.message);
             toast.error(err.message || "Something went wrong");
         } finally {
             setIsPublishing(false); // লোডিং শেষ
+            e.target.reset()
         }
     };
 
@@ -107,10 +115,10 @@ const AddLessonForm = ({ user }) => {
             </div>
 
             <Form onSubmit={handleSubmit} className="flex flex-col gap-6">
-                
+
                 {/* 2-Column Responsive Layout */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full">
-                    
+
                     {/* Left Columns Container */}
                     <div className="flex flex-col gap-5">
                         {/* Title Field */}
@@ -164,7 +172,7 @@ const AddLessonForm = ({ user }) => {
                     {/* Right Columns Container: Image Upload Box */}
                     <div className="flex flex-col h-full justify-between">
                         <Label className="text-sm font-bold text-white/90 mb-2 block tracking-wide">Visual Context (Optional)</Label>
-                        
+
                         <div className={`relative border-2 border-dashed border-white/15 rounded-2xl bg-white/2 h-full min-h-45 flex flex-col items-center justify-center p-4 transition-all group overflow-hidden ${isPublishing ? "opacity-50 pointer-events-none" : "hover:border-purple-500/50 hover:bg-white/4"}`}>
                             {uploading ? (
                                 <div className="flex flex-col items-center gap-2 text-purple-400">
@@ -191,11 +199,11 @@ const AddLessonForm = ({ user }) => {
                                     </div>
                                 </div>
                             )}
-                            
+
                             {!lessonImage && !uploading && !isPublishing && (
-                                <input 
-                                    type="file" 
-                                    accept="image/*" 
+                                <input
+                                    type="file"
+                                    accept="image/*"
                                     className="absolute inset-0 opacity-0 cursor-pointer w-full h-full z-20"
                                     onChange={handleLessonImageUpload}
                                 />
@@ -207,7 +215,7 @@ const AddLessonForm = ({ user }) => {
                 {/* Full Width Row: Description Textarea */}
                 <TextField isRequired className="w-full" isDisabled={isPublishing}>
                     <Label className="text-sm font-bold text-white/90 mb-2 block tracking-wide">Detailed Breakdown</Label>
-                    <TextArea 
+                    <TextArea
                         aria-label="Detailed notes"
                         placeholder="Provide detailed logs of the incident, retrospective analyses, or architectural adjustments made..."
                         rows={5}
@@ -283,8 +291,8 @@ const AddLessonForm = ({ user }) => {
 
                 {/* Main Submit Button Loader Fallback */}
                 <div className="flex items-center justify-end pt-6 border-t border-white/10 mt-2">
-                    <Button 
-                        type="submit" 
+                    <Button
+                        type="submit"
                         disabled={isPublishing}
                         className="px-8 py-3.5 rounded-xl bg-linear-to-r from-purple-600 to-indigo-600 hover:opacity-95 text-white text-sm font-bold transition-all active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed shadow-xl shadow-purple-500/20 border border-white/20 flex items-center gap-2 cursor-pointer"
                     >

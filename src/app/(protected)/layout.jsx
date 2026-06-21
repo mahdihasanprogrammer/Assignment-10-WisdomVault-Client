@@ -9,7 +9,7 @@ const ProtectedLayout = ({ children }) => {
             <DashboardNavbar />
             <div className='flex'>
                 <DashboardSideBar />
-                <main className='flex-1 p-5'>{children}</main>
+                <main className='flex-1'>{children}</main>
             </div>
         </div>
     );

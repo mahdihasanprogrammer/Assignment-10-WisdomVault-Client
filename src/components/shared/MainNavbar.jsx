@@ -79,11 +79,11 @@ const MainNavbar = () => {
           ))}
 
           {/* Only protected segment observes the loading stream wrapper */}
-          {isPending ? (
+          {isPending ? 
             <div className="bg-purple-500/10 border border-purple-500/20 px-4 py-1.5 rounded-xl text-xs text-purple-400 animate-pulse font-medium tracking-wide">
               loading modules...
             </div>
-          ) : (
+           : user &&
             protectedLinks.map((link) => (
               <Link
                 key={link.href}
@@ -92,7 +92,8 @@ const MainNavbar = () => {
               >
                 {link.label}
               </Link>
-            ))
+            )
+            
           )}
         </div>
 
