@@ -5,9 +5,10 @@ import { Table, Button } from '@heroui/react';
 import Link from 'next/link';
 import { 
     FiEye, FiLock, FiDollarSign, FiUnlock,
-    FiInfo, FiEdit3, FiTrash2, FiHeart, FiMessageSquare, FiBookOpen, FiPlus 
+    FiInfo,  FiTrash2, FiHeart, FiMessageSquare, FiBookOpen, FiPlus 
 } from 'react-icons/fi';
 import { EditLessonsFormWithModal } from '@/components/dashboard/EditLessonsFormWithModal';
+import { DeleteLessonWithModal } from '@/components/dashboard/DeleteLessonWithModal';
 
 const LessonsTable = ({ lessons, user }) => {
     
@@ -58,7 +59,7 @@ const LessonsTable = ({ lessons, user }) => {
                     {/* ছোট ডিভাইসে টেবিল ভেঙে যাওয়া রোধ করতে min-w-[850px] বাধ্য করা হয়েছে */}
                     <Table.Content className="min-w-212.5">
                         <Table.Header>
-                            <Table.Column className="bg-white/5 text-white/80 font-bold text-xs uppercase tracking-wider rounded-l-xl">Lesson Log Info</Table.Column>
+                            <Table.Column isRowHeader className="bg-white/5 text-white/80 font-bold text-xs uppercase tracking-wider rounded-l-xl">Lesson Log Info</Table.Column>
                             <Table.Column className="bg-white/5 text-white/80 font-bold text-xs uppercase tracking-wider">Visibility</Table.Column>
                             <Table.Column className="bg-white/5 text-white/80 font-bold text-xs uppercase tracking-wider">Access Level</Table.Column>
                             <Table.Column className="bg-white/5 text-white/80 font-bold text-xs uppercase tracking-wider">Engagement</Table.Column>
@@ -152,9 +153,8 @@ const LessonsTable = ({ lessons, user }) => {
                                             </Button>
                                           
                                             <EditLessonsFormWithModal lesson={lesson} user={user}/>
-                                            <Button title="Delete Lesson" size="sm" isIconOnly className="bg-rose-500/10 border border-rose-500/20 text-rose-400 hover:bg-rose-500/20 rounded-xl h-8 w-8 cursor-pointer">
-                                                <FiTrash2 className="w-3.5 h-3.5" />
-                                            </Button>
+
+                                         <DeleteLessonWithModal lesson={lesson}/>
                                         </div>
                                     </Table.Cell>
 

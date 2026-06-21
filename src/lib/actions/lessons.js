@@ -2,8 +2,7 @@
 
 import { toast } from "sonner";
 import { serverMutation } from "../core/server";
-import { redirect } from "next/navigation";
-import { revalidatePath } from "next/cache";
+
 
 
 // imgBB api and image upload function;
@@ -31,7 +30,6 @@ export const uploadLessonImageToImgBB =async (file) =>{
 // create a new lesson;
 export const createLesson = async (lessonData) =>{
     const result=await serverMutation("/api/create-lesson", lessonData);
-
     return result
 }
 
@@ -39,9 +37,13 @@ export const createLesson = async (lessonData) =>{
 // update lesson , 
 export const updateLesson = async (lessonId, lessonData) =>{
     const result=await serverMutation(`/api/update-lesson/${lessonId}`, lessonData, "PATCH");
-
     return result
    
+}
 
+// delete lesson 
+export const deleteLesson = async (lessonId) =>{
+    const result = await serverMutation(`/api/delete-lesson/${lessonId}`, {}, 'DELETE')
+    return result
 }
 
