@@ -52,7 +52,7 @@ const FilteredLesson = () => {
                 className="bg-[#0d071f]/40 border border-white/6 rounded-2xl p-4 backdrop-blur-xl flex flex-col md:flex-row items-center gap-3 shadow-xl w-full"
             >
                 {/* 1. Search Input (Takes more space) */}
-                <div className="w-full md:flex-1 min-w-[200px]">
+                <div className="w-full md:flex-1 min-w-70">
                     <SearchField
                     defaultValue={searchParams.get("search") || ""}
                     aria-label="search lessons"
@@ -60,7 +60,7 @@ const FilteredLesson = () => {
 
                         <SearchField.Group>
                             <SearchField.SearchIcon />
-                            <SearchField.Input className="w-[280px]" placeholder="Search..." />
+                            <SearchField.Input className="w-70" placeholder="Search..." />
                             <SearchField.ClearButton />
                         </SearchField.Group>
                     </SearchField>
@@ -142,7 +142,7 @@ const FilteredLesson = () => {
                 <div className="w-full md:w-auto shrink-0">
                     <Button
                         type="submit"
-                        className="w-full md:w-28 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white font-bold h-10 rounded-xl flex items-center justify-center gap-2 border border-white/10 transition-all active:scale-[0.98]"
+                        className="w-full md:w-28 bg-linear-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white font-bold h-10 rounded-xl flex items-center justify-center gap-2 border border-white/10 transition-all active:scale-[0.98]"
                     >
                         <FiSliders className="w-4 h-4" />
                         <span>Apply</span>
