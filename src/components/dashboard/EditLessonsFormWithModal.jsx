@@ -26,12 +26,7 @@ const EMOTIONAL_TONES = [
   { id: "sad", label: "Sad" },
   { id: "realization", label: "Realization" },
   { id: "gratitude", label: "Gratitude" },
-  { id: "hopeful", label: "Hopeful" },
-  { id: "inspirational", label: "Inspirational" },
-  { id: "reflective", label: "Reflective" },
-  { id: "encouraging", label: "Encouraging" },
-  { id: "heartfelt", label: "Heartfelt" },
-  { id: "uplifting", label: "Uplifting" },
+  
 ];
 
 const VISIBILITIES = [
