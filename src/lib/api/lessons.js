@@ -15,3 +15,8 @@ export const getFeaturedLessons = async()=>{
     const result = await serverFetch(`/api/featured-lessons`);
     return result
 }
+
+export const getLessonById = async (id) =>{
+    const result = await serverFetch(`/api/public-lessons/${id}`)
+    return result
+}

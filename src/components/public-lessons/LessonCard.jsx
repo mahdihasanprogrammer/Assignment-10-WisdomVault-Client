@@ -146,7 +146,7 @@ const LessonCard = ({ lesson }) => {
                 </div>
 
                 {/* Details Button */}
-                <Link href={`/lessons/${lesson._id}`}>
+                <Link href={`/public-lessons/${lesson._id}`}>
                     <Button
                         size="sm"
                         className="bg-linear-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white text-xs font-bold px-3.5 py-2 rounded-xl transition-all active:scale-[0.97] flex items-center gap-1.5 cursor-pointer border border-white/10 shadow-lg shadow-purple-950/40"
