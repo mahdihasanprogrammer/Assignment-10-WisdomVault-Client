@@ -20,3 +20,8 @@ export const getLessonById = async (id) =>{
     const result = await serverFetch(`/api/public-lessons/${id}`)
     return result
 }
+
+export const getLessonsByAuthor = async(authorId) =>{
+    const result = await serverFetch(`/api/author-lessons/${authorId}`)
+    return result
+}
