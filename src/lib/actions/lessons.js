@@ -41,6 +41,11 @@ export const updateLesson = async (lessonId, lessonData) =>{
    
 }
 
+export const toggleLike = async (lessonId, userId)=>{
+    const result =await serverMutation(`/api/lessons/${lessonId}/like`, userId);
+    return result ;
+}
+
 // delete lesson 
 export const deleteLesson = async (lessonId) =>{
     const result = await serverMutation(`/api/delete-lesson/${lessonId}`, {}, 'DELETE')

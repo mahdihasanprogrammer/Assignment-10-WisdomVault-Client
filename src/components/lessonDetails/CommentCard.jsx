@@ -4,15 +4,17 @@ import { Avatar, Input, Button } from "@heroui/react";
 import { FiMessageCircle, FiSend, FiUser } from "react-icons/fi";
 
 export default function CommentCard({ lesson }) {
+
+  
   return (
-    <div className="space-y-6 text-left w-full bg-gradient-to-b from-[#0d071f]/60 to-[#060211]/80 border border-white/5 p-5 rounded-3xl backdrop-blur-xl shadow-xl">
+    <div className="space-y-6 text-left w-full bg-linear-to-b from-[#0d071f]/60 to-[#060211]/80 border border-white/5 p-5 rounded-3xl backdrop-blur-xl shadow-xl">
       {/* হেডার সেকশন */}
       <div className="flex items-center gap-2 border-b border-white/5 pb-3">
         <div className="p-1.5 rounded-lg bg-purple-500/10 border border-purple-500/20">
           <FiMessageCircle className="text-purple-400 w-4 h-4" />
         </div>
         <h3 className="text-sm font-black uppercase tracking-wider text-white/90">
-          Comments <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-400 text-xs ml-1 font-bold">(4)</span>
+          Comments <span className="text-transparent bg-clip-text bg-linear-to-r from-purple-400 to-pink-400 text-xs ml-1 font-bold">(4)</span>
         </h3>
       </div>
 
@@ -32,7 +34,7 @@ export default function CommentCard({ lesson }) {
               inputWrapper: "border-white/5 after:bg-purple-500",
             }}
           />
-          <Button isIconOnly size="sm" className="absolute right-0 bottom-0.5 bg-gradient-to-r from-purple-600 to-pink-600 w-7 h-7 min-w-7 rounded-xl hover:opacity-90 shadow-[0_0_15px_rgba(147,51,234,0.4)] transition-all">
+          <Button isIconOnly size="sm" className="absolute right-0 bottom-0.5 bg-linear-to-r from-purple-600 to-pink-600 w-7 h-7 min-w-7 rounded-xl hover:opacity-90 shadow-[0_0_15px_rgba(147,51,234,0.4)] transition-all">
             <FiSend className="text-white w-3 h-3" />
           </Button>
         </div>

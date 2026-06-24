@@ -2,27 +2,92 @@
 
 import Image from "next/image";
 import { Button } from "@heroui/react";
-import { FiHeart, FiBookmark, FiEye, FiClock, FiFlag, FiShare2, FiCalendar, FiEdit3 } from "react-icons/fi";
+import { FiHeart, FiEye, FiClock, FiShare2, FiCalendar, FiEdit3, FiFlag } from "react-icons/fi";
+import { FaHeart } from "react-icons/fa6";
+import { AiFillLike, AiOutlineLike } from "react-icons/ai";
+import { useState, useMemo } from "react";
+import { useRouter } from "next/navigation";
+import { toast } from "sonner";
+
 import AuthorCard from "./AuthorCard";
 import CommentCard from "./CommentCard";
+import { toggleLike } from "@/lib/actions/lessons";
+import { toggleFavorite } from "@/lib/actions/favorites";
 
-const LessonDetailsManager = ({ lesson }) => {
+const LessonDetailsManager = ({ lesson, userId, totalFavorite, isFavorite }) => {
+    const router = useRouter();
+
+    // 💡 রি-রেন্ডার লকড ভিউ কাউন্ট (প্রতি ক্লিকে চেঞ্জ হবে না)
+    const viewsCount = useMemo(() => Math.floor(Math.random() * 10000), []);
+
+    // ⏳ রিডিং টাইম ক্যালকুলেশন
     const wordCount = lesson.lessonDescription?.split(/\s+/).length || 0;
     const readingTime = Math.ceil(wordCount / 200) || 1;
-    const viewsCount = Math.floor(Math.random() * 10000);
 
+    // 📅 ডেট ফরম্যাটিং ও আপডেট চেক
     const createdDate = lesson.createdAt?.$date || lesson.createdAt;
     const updatedDate = lesson.lastUpdated?.$date || lesson.lastUpdated;
     const isUpdated = updatedDate && new Date(updatedDate).getTime() !== new Date(createdDate).getTime();
 
+    // 🔄 লাইক এবং ফেভারিট রিয়েল-টাইম স্টেট (আপনার ডাটার likesCount ব্যবহার করা হয়েছে)
+    const hasLike = lesson.likes?.includes(userId);
+    const [likesCount, setLikesCount] = useState(lesson.likesCount || 0); 
+    const [isLiked, setIsLiked] = useState(hasLike || false);
+
+    const [favorited, setFavorited] = useState(isFavorite || false);
+    const [totalSaved, setTotalSaved] = useState(totalFavorite || 0);
+
+    // ❤️ লাইক হ্যান্ডলার (Optimistic UI Update with prev)
+    const handleLike = async (lessonId) => {
+        // ক্লিক করার সাথে সাথে UI পরিবর্তন
+        setIsLiked(!isLiked);
+        setLikesCount(prev => isLiked ? prev - 1 : prev + 1);
+
+        const result = await toggleLike(lessonId, { userId });
+
+        if (result?.modifiedCount > 0) {
+            router.refresh();
+            toast.success(isLiked ? "Removed from likes" : "Liked!");
+        } else {
+            // এপিআই ফেইল করলে আগের ডাটাতে রোলব্যাক
+            setIsLiked(isLiked);
+            setLikesCount(lesson.likesCount || 0);
+            toast.error("Failed to update like");
+        }
+    };
+
+    // 🔖 ফেভারিট হ্যান্ডলার (Optimistic UI Update with prev)
+    const handleFavorite = async (lessonId) => {
+        // ক্লিক করার সাথে সাথে UI পরিবর্তন
+        setFavorited(!favorited);
+        setTotalSaved(prev => favorited ? prev - 1 : prev + 1);
+
+        const result = await toggleFavorite(lessonId, { userId, lessonId });
+        
+        if (result?.success) {
+            setTotalSaved(result.total);
+            setFavorited(result.isFavorite); // সার্ভার রেসপন্সের সাথে সিঙ্ক
+            toast.success(result.message);
+        } else {
+            // এপিআই ফেইল করলে আগের ডাটাতে রোলব্যাক
+            setFavorited(favorited);
+            setTotalSaved(totalFavorite);
+            toast.error("Failed to update favorite");
+        }
+    };
+
+    // 🚩 রিপোর্ট হ্যান্ডলার
+    const handleReport = () => {
+        toast.error("Lesson reported successfully. Our team will review it.");
+    };
+
     return (
-        /* ২-কলাম রেস্পন্সিভ গ্রিড (ডেস্কটপে ৩ ভাগের ২ ভাগ বামে, ১ ভাগ ডানে) */
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 text-white text-left items-start w-full">
-            
-            {/* LEFT COLUMN: Main content */}
+
+            {/* LEFT COLUMN: Main Content */}
             <div className="lg:col-span-2 space-y-6 w-full min-w-0">
-                
-                {/* 1. Lesson Information */}
+
+                {/* 1. Header Metadata */}
                 <div className="space-y-4">
                     <div className="flex flex-wrap gap-2">
                         <span className="inline-flex items-center gap-1 py-0.5 px-2.5 text-[11px] font-medium uppercase tracking-wider rounded-lg bg-cyan-500/10 border border-cyan-500/20 text-cyan-400">
@@ -32,7 +97,7 @@ const LessonDetailsManager = ({ lesson }) => {
                             <span className="opacity-40">Tone:</span> {lesson.emotionalTone}
                         </span>
                     </div>
-                    
+
                     <h1 className="text-2xl md:text-4xl font-black tracking-tight leading-tight">
                         {lesson.lessonTitle}
                     </h1>
@@ -43,28 +108,28 @@ const LessonDetailsManager = ({ lesson }) => {
                     </div>
                 </div>
 
-                {/* Featured Image */}
+                {/* 2. Banner Image */}
                 {lesson.lessonImage && (
                     <div className="relative w-full aspect-video rounded-2xl overflow-hidden border border-white/5 bg-white/5">
-                        <Image 
-                            src={lesson.lessonImage} 
-                            alt={lesson.lessonTitle} 
-                            fill
-                            sizes="w-sm"
-                            priority
+                        <Image
+                            src={lesson.lessonImage}
+                            alt={lesson.lessonTitle}
+                            fill 
+                            sizes="(max-width: 768px) 100vw, 70vw" 
+                            priority 
                             className="object-cover"
                         />
                     </div>
                 )}
 
-                {/* Content */}
+                {/* 3. Description Content */}
                 <article className="prose prose-invert max-w-none">
                     <p className="text-sm md:text-base text-white/80 leading-relaxed font-light whitespace-pre-line">
                         {lesson.lessonDescription}
                     </p>
                 </article>
 
-                {/* Metadata Grid */}
+                {/* 4. Timeline Information Card */}
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 bg-white/[0.01] border border-white/5 p-4 rounded-xl">
                     <div className="space-y-0.5">
                         <span className="text-[9px] uppercase tracking-widest text-white/30 font-bold">Created</span>
@@ -91,21 +156,70 @@ const LessonDetailsManager = ({ lesson }) => {
                     </div>
                 </div>
 
-                {/* Engagement */}
-                <div className="flex flex-wrap items-center justify-between gap-4 py-2 border-y border-white/5">
-                    <div className="flex items-center gap-4 text-xs">
-                        <span className="flex items-center gap-1 font-bold"><FiHeart className="text-rose-500 fill-rose-500" /> 1.2K</span>
-                        <span className="flex items-center gap-1 font-bold"><FiBookmark className="text-amber-500 fill-amber-500" /> 342</span>
+                {/* 5. Modern Button Action Row */}
+                <div className="flex flex-wrap items-center justify-between gap-4 py-3 border-y border-white/5">
+                    
+                    {/* Left side actions (Like & Favorite with integrated count) */}
+                    <div className="flex flex-wrap items-center gap-2">
+                        
+                        {/* 👍 Like Button */}
+                        <Button 
+                            onClick={() => handleLike(lesson._id)}
+                            size="sm" 
+                            className={`rounded-xl text-xs h-9 font-bold border transition-all duration-300 ${
+                                isLiked 
+                                ? "bg-rose-500 text-white border-rose-500 shadow-lg shadow-rose-500/20" 
+                                : "bg-rose-500/5 text-rose-400 border-rose-500/10 hover:bg-rose-500/20 hover:border-rose-500/40"
+                            }`}
+                        >
+                            {isLiked ? <AiFillLike className="w-4 h-4" /> : <AiOutlineLike className="w-4 h-4" />}
+                            <span>{isLiked ? "Liked" : "Like"} • {likesCount}</span>
+                        </Button>
+
+                        {/* 🔖 Favorite Button */}
+                        <Button 
+                            onClick={() => handleFavorite(lesson._id)}
+                            size="sm" 
+                            className={`rounded-xl text-xs h-9 font-bold border transition-all duration-300 ${
+                                favorited 
+                                ? "bg-amber-500 text-black border-amber-500 shadow-lg shadow-amber-500/20" 
+                                : "bg-amber-500/5 text-amber-400 border-amber-500/10 hover:bg-amber-500/20 hover:border-amber-500/40"
+                            }`}
+                        >
+                            {favorited ? <FaHeart className="w-3.5 h-3.5" /> : <FiHeart className="w-3.5 h-3.5" />}
+                            <span>{favorited ? "Favorited" : "Favorite"} • {totalSaved}</span>
+                        </Button>
                     </div>
-                    <div className="flex items-center gap-1.5">
-                        <Button size="sm" className="bg-rose-500/10 text-rose-500 rounded-lg text-xs h-8"><FiHeart /> Like</Button>
-                        <Button size="sm" className="bg-amber-500/10 text-amber-500 rounded-lg text-xs h-8"><FiBookmark /> Save</Button>
-                        <Button size="sm" variant="flat" className="bg-white/5 text-white rounded-lg text-xs h-8"><FiShare2 /></Button>
+
+                    {/* Right side utilities (Share & Report with premium hover effects) */}
+                    <div className="flex items-center gap-2">
+                        {/* 📤 Share Button */}
+                        <Button 
+                            size="sm" 
+                            variant="flat" 
+                            className="bg-white/5 hover:bg-white/10 border border-white/5 text-white rounded-xl text-xs h-9 transition-colors duration-200"
+                            title="Share Lesson"
+                        >
+                            <FiShare2 className="w-4 h-4" />
+                        </Button>
+
+                        {/* 🚩 Report Button */}
+                        <Button 
+                            onClick={handleReport}
+                            size="sm" 
+                            variant="flat" 
+                            className="bg-red-500/5 hover:bg-red-500/10 border border-red-500/10 hover:border-red-500/30 text-red-400 rounded-xl text-xs h-9 font-medium transition-all duration-200"
+                            title="Report This Lesson"
+                        >
+                            <FiFlag className="w-3.5 h-3.5" />
+                            <span className="hidden sm:inline">Report</span>
+                        </Button>
                     </div>
+
                 </div>
             </div>
 
-            {/* RIGHT COLUMN: Perfect box setup for Author Card & Comments */}
+            {/* RIGHT COLUMN: Sidebar Component Placement */}
             <div className="lg:col-span-1 space-y-6 w-full lg:border-l lg:border-white/5 lg:pl-5 flex flex-col">
                 <AuthorCard lesson={lesson} />
                 <CommentCard lesson={lesson} />
