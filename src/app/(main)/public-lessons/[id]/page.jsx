@@ -10,11 +10,9 @@ const LessonDetailsPage = async ({ params }) => {
     const user = await getUserSession();
      const userId = user?.id;
     const {totalFavorite, isFavorite} = await getFavoritesByLessonId(lesson._id, userId);
-    console.log('isfavo', isFavorite, totalFavorite)
+   
     
    
-   
-
     if (!lesson) {
         return (
             <div className="min-h-screen bg-[#060211] flex items-center justify-center text-white/50">
@@ -26,7 +24,7 @@ const LessonDetailsPage = async ({ params }) => {
     return (
         <main className="min-h-screen bg-[#060211] py-12 px-4 md:px-8">
             <div className=" mx-auto">
-                <LessonDetailsManager lesson={lesson} userId = {userId} totalFavorite ={totalFavorite} isFavorite ={isFavorite} />
+                <LessonDetailsManager lesson={lesson} user = {user} totalFavorite ={totalFavorite} isFavorite ={isFavorite} />
             </div>
         </main>
     );

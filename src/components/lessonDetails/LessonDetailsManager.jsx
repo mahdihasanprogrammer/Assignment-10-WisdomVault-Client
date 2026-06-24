@@ -14,9 +14,9 @@ import CommentCard from "./CommentCard";
 import { toggleLike } from "@/lib/actions/lessons";
 import { toggleFavorite } from "@/lib/actions/favorites";
 
-const LessonDetailsManager = ({ lesson, userId, totalFavorite, isFavorite }) => {
+const LessonDetailsManager = ({ lesson, user, totalFavorite, isFavorite }) => {
     const router = useRouter();
-
+    const userId = user?.id;
     // 💡 রি-রেন্ডার লকড ভিউ কাউন্ট (প্রতি ক্লিকে চেঞ্জ হবে না)
     const viewsCount = useMemo(() => Math.floor(Math.random() * 10000), []);
 
@@ -222,7 +222,7 @@ const LessonDetailsManager = ({ lesson, userId, totalFavorite, isFavorite }) => 
             {/* RIGHT COLUMN: Sidebar Component Placement */}
             <div className="lg:col-span-1 space-y-6 w-full lg:border-l lg:border-white/5 lg:pl-5 flex flex-col">
                 <AuthorCard lesson={lesson} />
-                <CommentCard lesson={lesson} />
+                <CommentCard lesson={lesson} user={user} />
             </div>
 
         </div>
