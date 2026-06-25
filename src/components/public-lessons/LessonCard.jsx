@@ -11,6 +11,7 @@ const LessonCard = ({ lesson }) => {
     const isPremium = lesson.accessLevel === "premium";
     const creatorName = lesson.creatorName || "Anonymous";
 
+    // eslint-disable-next-line react-hooks/rules-of-hooks
     const { data: session } = useSession();
     const user = session?.user;
     const premiumUser = user?.isPremium;

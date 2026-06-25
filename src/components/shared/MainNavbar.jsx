@@ -79,11 +79,11 @@ const MainNavbar = () => {
           ))}
 
           {/* Only protected segment observes the loading stream wrapper */}
-          {isPending ? 
+          {isPending ?
             <div className="bg-purple-500/10 border border-purple-500/20 px-4 py-1.5 rounded-xl text-xs text-purple-400 animate-pulse font-medium tracking-wide">
               loading modules...
             </div>
-           : user &&
+            : user?.role === 'user' &&
             protectedLinks.map((link) => (
               <Link
                 key={link.href}
@@ -93,8 +93,8 @@ const MainNavbar = () => {
                 {link.label}
               </Link>
             )
-            
-          )}
+
+            )}
         </div>
 
         {/* UTILITY ACTION TIER */}
@@ -107,11 +107,11 @@ const MainNavbar = () => {
             </div>
           ) : (
             <>
-              {user && (
+              {user?.role === "user" && (
                 <div>
                   {isPremium ? (
-                    <span className="text-[10px] font-bold tracking-widest bg-purple-500/10 text-purple-300 border border-purple-500/40 backdrop-blur-md px-3.5 py-2 rounded-full uppercase flex items-center gap-1.5 shadow-lg shadow-purple-500/5">
-                      Premium <FiAward className="text-purple-400 text-xs" />
+                    <span className="bg-linear-to-r from-amber-500/20 to-yellow-500/20 border border-amber-500/30 text-amber-400 text-[10px] font-black uppercase tracking-wider px-3.5 py-2 rounded-full flex items-center gap-1 shadow-lg shadow-amber-950/20">
+                      Premium ⭐
                     </span>
                   ) : (
                     <Link href="/pricing" className="flex items-center gap-1.5 text-[10px] font-bold tracking-widest bg-linear-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white px-3 py-2 rounded-full transition-all border border-white/20 shadow-lg hover:shadow-purple-500/20 active:scale-95 uppercase">

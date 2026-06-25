@@ -27,10 +27,15 @@ const SignInPage = () => {
         email: formData.email,
         password: formData.password,
       });
+         console.log('data', data)
 
-      if (data) {
-        router.push('/');
+      if (data?.user?.role==='user') {
+        router.push('/')
         toast.success("Welcome back! 🚀");
+      }
+      if(data?.user?.role === "admin"){
+        toast.success("Welcome back! 🚀");
+        router.push('/dashboard/admin')
       }
       if (error) {
         toast.error(error.message);
@@ -43,10 +48,12 @@ const SignInPage = () => {
   };
 
   const handleGoogleSignIn = async () => {
+  
     try {
       setGoogleLoading(true);
       await signIn.social({
         provider:"google"
+     
       })
     } catch (err) {
       toast.error("Google sign-in failed");

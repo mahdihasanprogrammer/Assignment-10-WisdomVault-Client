@@ -43,7 +43,7 @@ const DashboardSideBar = async () => {
                     </div>
                     <div>
                         <h2 className="text-white font-black text-base tracking-wider leading-none">Wisdom<span className="text-purple-400 font-bold">Vault</span></h2>
-                        <span className="text-[10px] text-purple-400/80 font-bold uppercase tracking-widest mt-1 block">
+                        <span className="text-xs text-purple-400/80 font-bold uppercase tracking-widest mt-2 block">
                             {user?.role === 'admin' ? 'Admin Core' : 'User Panel'}
                         </span>
                     </div>

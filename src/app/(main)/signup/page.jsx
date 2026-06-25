@@ -25,15 +25,17 @@ const SignUpPage = () => {
       setLoading(true);
       const form = new FormData(e.currentTarget);
       const formData = Object.fromEntries(form.entries());
+      const role = "user";
       
       const { data, error} = await signUp.email({
         name: formData.name,
         image: formData.image,
         email: formData.email,
         password: formData.password,
-        role: 'user',
-        isPremium: false
+        role: role,
+        ...(role === "user" && {isPremium: false})
       });
+
 
       if (data) {
         router.push('/signin');
