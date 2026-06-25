@@ -55,7 +55,7 @@ const ReportModal = ({ handleReport }) => {
                 <AlertDialog.Icon status="danger" className="bg-red-500/10 text-red-500 border border-red-500/20 p-1 rounded-full mb-4" />
                 <AlertDialog.Heading className='text-center'>
                   <h1 className='text-2xl font-bold text-white tracking-tight'>Are you sure?</h1>
-                  <p className='text-xs text-white/50 mt-1'>You want to report this lesson?</p>
+                  <p className='text-base text-white/50 mt-1'>You want to report this lesson?</p>
                 </AlertDialog.Heading>
               </AlertDialog.Header>
               
