@@ -13,6 +13,8 @@ import AuthorCard from "./AuthorCard";
 import CommentCard from "./CommentCard";
 import { toggleLike } from "@/lib/actions/lessons";
 import { toggleFavorite } from "@/lib/actions/favorites";
+import ReportModal from "./ReportModal";
+import { createLessonReport } from "@/lib/actions/lessonsReports";
 
 const LessonDetailsManager = ({ lesson, user, totalFavorite, isFavorite }) => {
     const router = useRouter();
@@ -31,7 +33,7 @@ const LessonDetailsManager = ({ lesson, user, totalFavorite, isFavorite }) => {
 
     // 🔄 লাইক এবং ফেভারিট রিয়েল-টাইম স্টেট (আপনার ডাটার likesCount ব্যবহার করা হয়েছে)
     const hasLike = lesson.likes?.includes(userId);
-    const [likesCount, setLikesCount] = useState(lesson.likesCount || 0); 
+    const [likesCount, setLikesCount] = useState(lesson.likesCount || 0);
     const [isLiked, setIsLiked] = useState(hasLike || false);
 
     const [favorited, setFavorited] = useState(isFavorite || false);
@@ -39,6 +41,10 @@ const LessonDetailsManager = ({ lesson, user, totalFavorite, isFavorite }) => {
 
     // ❤️ লাইক হ্যান্ডলার (Optimistic UI Update with prev)
     const handleLike = async (lessonId) => {
+        if (!user) {
+            toast.error("Please log in to like");
+            return
+        }
         // ক্লিক করার সাথে সাথে UI পরিবর্তন
         setIsLiked(!isLiked);
         setLikesCount(prev => isLiked ? prev - 1 : prev + 1);
@@ -58,12 +64,16 @@ const LessonDetailsManager = ({ lesson, user, totalFavorite, isFavorite }) => {
 
     // 🔖 ফেভারিট হ্যান্ডলার (Optimistic UI Update with prev)
     const handleFavorite = async (lessonId) => {
+        if (!user) {
+            toast.error('Please log in to Saved');
+            return
+        }
         // ক্লিক করার সাথে সাথে UI পরিবর্তন
         setFavorited(!favorited);
         setTotalSaved(prev => favorited ? prev - 1 : prev + 1);
 
         const result = await toggleFavorite(lessonId, { userId, lessonId });
-        
+
         if (result?.success) {
             setTotalSaved(result.total);
             setFavorited(result.isFavorite); // সার্ভার রেসপন্সের সাথে সিঙ্ক
@@ -76,10 +86,28 @@ const LessonDetailsManager = ({ lesson, user, totalFavorite, isFavorite }) => {
         }
     };
 
+
     // 🚩 রিপোর্ট হ্যান্ডলার
-    const handleReport = () => {
-        toast.error("Lesson reported successfully. Our team will review it.");
+    const handleReport = async ({ reason, details }) => {
+        if (!user) {
+            toast.error('Please logged in to report');
+            return
+        }
+        const reportData = {
+            lessonId: lesson._id,
+            reporterUserId: user?.id,
+            reporterUserEmail: user?.email,
+            reportReason: reason,
+            reportDetails: details || "",
+
+        }
+        const result = await createLessonReport(reportData);
+        if (result.acknowledged) {
+            toast.error("Lesson reported successfully. Our team will review it.");
+        }
+
     };
+
 
     return (
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 text-white text-left items-start w-full">
@@ -114,9 +142,9 @@ const LessonDetailsManager = ({ lesson, user, totalFavorite, isFavorite }) => {
                         <Image
                             src={lesson.lessonImage}
                             alt={lesson.lessonTitle}
-                            fill 
-                            sizes="(max-width: 768px) 100vw, 70vw" 
-                            priority 
+                            fill
+                            sizes="(max-width: 768px) 100vw, 70vw"
+                            priority
                             className="object-cover"
                         />
                     </div>
@@ -158,33 +186,31 @@ const LessonDetailsManager = ({ lesson, user, totalFavorite, isFavorite }) => {
 
                 {/* 5. Modern Button Action Row */}
                 <div className="flex flex-wrap items-center justify-between gap-4 py-3 border-y border-white/5">
-                    
+
                     {/* Left side actions (Like & Favorite with integrated count) */}
                     <div className="flex flex-wrap items-center gap-2">
-                        
+
                         {/* 👍 Like Button */}
-                        <Button 
+                        <Button
                             onClick={() => handleLike(lesson._id)}
-                            size="sm" 
-                            className={`rounded-xl text-xs h-9 font-bold border transition-all duration-300 ${
-                                isLiked 
-                                ? "bg-rose-500 text-white border-rose-500 shadow-lg shadow-rose-500/20" 
-                                : "bg-rose-500/5 text-rose-400 border-rose-500/10 hover:bg-rose-500/20 hover:border-rose-500/40"
-                            }`}
+                            size="sm"
+                            className={`rounded-xl text-xs h-9 font-bold border transition-all duration-300 ${isLiked
+                                    ? "bg-rose-500 text-white border-rose-500 shadow-lg shadow-rose-500/20"
+                                    : "bg-rose-500/5 text-rose-400 border-rose-500/10 hover:bg-rose-500/20 hover:border-rose-500/40"
+                                }`}
                         >
                             {isLiked ? <AiFillLike className="w-4 h-4" /> : <AiOutlineLike className="w-4 h-4" />}
                             <span>{isLiked ? "Liked" : "Like"} • {likesCount}</span>
                         </Button>
 
                         {/* 🔖 Favorite Button */}
-                        <Button 
+                        <Button
                             onClick={() => handleFavorite(lesson._id)}
-                            size="sm" 
-                            className={`rounded-xl text-xs h-9 font-bold border transition-all duration-300 ${
-                                favorited 
-                                ? "bg-amber-500 text-black border-amber-500 shadow-lg shadow-amber-500/20" 
-                                : "bg-amber-500/5 text-amber-400 border-amber-500/10 hover:bg-amber-500/20 hover:border-amber-500/40"
-                            }`}
+                            size="sm"
+                            className={`rounded-xl text-xs h-9 font-bold border transition-all duration-300 ${favorited
+                                    ? "bg-amber-500 text-black border-amber-500 shadow-lg shadow-amber-500/20"
+                                    : "bg-amber-500/5 text-amber-400 border-amber-500/10 hover:bg-amber-500/20 hover:border-amber-500/40"
+                                }`}
                         >
                             {favorited ? <FaHeart className="w-3.5 h-3.5" /> : <FiHeart className="w-3.5 h-3.5" />}
                             <span>{favorited ? "Favorited" : "Favorite"} • {totalSaved}</span>
@@ -194,9 +220,9 @@ const LessonDetailsManager = ({ lesson, user, totalFavorite, isFavorite }) => {
                     {/* Right side utilities (Share & Report with premium hover effects) */}
                     <div className="flex items-center gap-2">
                         {/* 📤 Share Button */}
-                        <Button 
-                            size="sm" 
-                            variant="flat" 
+                        <Button
+                            size="sm"
+                            variant="flat"
                             className="bg-white/5 hover:bg-white/10 border border-white/5 text-white rounded-xl text-xs h-9 transition-colors duration-200"
                             title="Share Lesson"
                         >
@@ -204,16 +230,7 @@ const LessonDetailsManager = ({ lesson, user, totalFavorite, isFavorite }) => {
                         </Button>
 
                         {/* 🚩 Report Button */}
-                        <Button 
-                            onClick={handleReport}
-                            size="sm" 
-                            variant="flat" 
-                            className="bg-red-500/5 hover:bg-red-500/10 border border-red-500/10 hover:border-red-500/30 text-red-400 rounded-xl text-xs h-9 font-medium transition-all duration-200"
-                            title="Report This Lesson"
-                        >
-                            <FiFlag className="w-3.5 h-3.5" />
-                            <span className="hidden sm:inline">Report</span>
-                        </Button>
+                        <ReportModal handleReport={handleReport} />
                     </div>
 
                 </div>

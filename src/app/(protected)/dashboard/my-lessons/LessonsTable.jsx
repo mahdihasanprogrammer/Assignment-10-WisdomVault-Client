@@ -1,17 +1,33 @@
 "use client";
 
-import React from 'react';
 import { Table, Button } from '@heroui/react';
 import Link from 'next/link';
-import { 
+import {
     FiEye, FiLock, FiDollarSign, FiUnlock,
-    FiInfo,  FiTrash2, FiHeart, FiMessageSquare, FiBookOpen, FiPlus 
+    FiInfo, FiHeart, FiBookOpen, FiPlus
 } from 'react-icons/fi';
 import { EditLessonsFormWithModal } from '@/components/dashboard/EditLessonsFormWithModal';
 import { DeleteLessonWithModal } from '@/components/dashboard/DeleteLessonWithModal';
+import { AiOutlineLike } from 'react-icons/ai';
+import { useEffect, useState } from 'react';
+import { getFavoritesByLessonId } from '@/lib/api/favorites';
 
-const LessonsTable = ({ lessons, user }) => {
-    
+const LessonsTable = ({ lessons = [], user }) => {
+    const [favoriteCount, setFavoriteCount] = useState({});
+    useEffect(()=>{
+        const fetchFavoriteLessons = async() =>{
+            lessons.forEach(async(lesson) => {
+                const {totalFavorite} = await getFavoritesByLessonId(lesson._id);
+               setFavoriteCount(prev => ({
+                ...prev,
+                [lesson._id]: totalFavorite,
+               }))
+            })
+             
+        }
+        fetchFavoriteLessons()
+    }, [lessons])
+
     const renderDate = (createdAt) => {
         const dateStr = createdAt?.$date || createdAt;
         if (!dateStr) return "N/A";
@@ -24,7 +40,7 @@ const LessonsTable = ({ lessons, user }) => {
 
     return (
         <div className="w-full bg-white/4 border border-white/10 backdrop-blur-2xl rounded-3xl px-6 py-10 shadow-2xl shadow-black/40 overflow-hidden">
-            
+
             {/* টেবিল হেডার, টাইটেল এবং রাইট-সাইড বাটন */}
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
                 <div>
@@ -35,16 +51,15 @@ const LessonsTable = ({ lessons, user }) => {
                         Auditing and managing your personal experiences.
                     </p>
                 </div>
-                
+
                 {/* টপ রাইট অ্যাকশন গ্রূপ */}
                 <div className="flex items-center gap-3 self-stretch sm:self-center justify-between sm:justify-end">
                     <div className="text-xs px-3 py-2 bg-white/5 border border-white/10 rounded-xl text-white/70">
                         Total: <span className="text-purple-400 font-bold">{lessons.length}</span>
                     </div>
                     {/* + Write New Lesson Button */}
-                    <Link 
+                    <Link
                         href="/dashboard/add-lesson"
-                        size="sm"
                         className="px-4 h-9 rounded-xl bg-linear-to-r from-purple-600 to-indigo-600 text-white text-xs font-bold shadow-lg shadow-purple-500/20 hover:opacity-95 transition-all active:scale-[0.98] flex items-center gap-1.5 cursor-pointer shrink-0"
                     >
                         <FiPlus className="w-3.5 h-3.5" />
@@ -56,8 +71,8 @@ const LessonsTable = ({ lessons, user }) => {
             {/* রেসপনসিভ কন্টেইনার ফিক্স */}
             <Table aria-label="Wisdom Vault Records" className="w-full">
                 <Table.ScrollContainer className="w-full overflow-x-auto scrollbar-thin scrollbar-thumb-white/10 scrollbar-track-transparent">
-                    {/* ছোট ডিভাইসে টেবিল ভেঙে যাওয়া রোধ করতে min-w-[850px] বাধ্য করা হয়েছে */}
-                    <Table.Content className="min-w-212.5">
+                    {/* min-w ক্লাস স্ট্যান্ডার্ডাইজ করা হয়েছে */}
+                    <Table.Content className="min-w-206">
                         <Table.Header>
                             <Table.Column isRowHeader className="bg-white/5 text-white/80 font-bold text-xs uppercase tracking-wider rounded-l-xl">Lesson Log Info</Table.Column>
                             <Table.Column className="bg-white/5 text-white/80 font-bold text-xs uppercase tracking-wider">Visibility</Table.Column>
@@ -66,11 +81,11 @@ const LessonsTable = ({ lessons, user }) => {
                             <Table.Column className="bg-white/5 text-white/80 font-bold text-xs uppercase tracking-wider">Created At</Table.Column>
                             <Table.Column className="bg-white/5 text-white/80 font-bold text-xs uppercase tracking-wider rounded-r-xl text-right">Actions</Table.Column>
                         </Table.Header>
-                        
+
                         <Table.Body>
                             {lessons.map((lesson, index) => (
                                 <Table.Row key={lesson._id?.$oid || lesson._id || index} className="border-b border-white/5 hover:bg-white/2 transition-colors">
-                                    
+
                                     {/* ১. রো স্টার্ট আইকন, টাইটেল, ক্যাটাগরি ও টোন */}
                                     <Table.Cell className="py-4">
                                         <div className="flex items-start gap-3 max-w-sm">
@@ -124,16 +139,18 @@ const LessonsTable = ({ lessons, user }) => {
                                         </div>
                                     </Table.Cell>
 
-                                    {/* ৪. Engagement (হার্ট ও কমেন্ট) */}
+                                    {/* ৪. Engagement (লাইক ও ফেভারিট হার্ট) */}
                                     <Table.Cell>
                                         <div className="flex items-center gap-4 text-white/60 text-xs">
-                                            <div className="flex items-center gap-1" title="Reactions/Love">
-                                                <FiHeart className="w-3.5 h-3.5 text-rose-400/80" />
-                                                <span>0</span>
+                                            <div className="flex items-center gap-1" title="Reactions/Likes">
+                                                <AiOutlineLike className="w-3.5 h-3.5 text-rose-400/80" />
+                                                <span>{lesson.likesCount || 0}</span>
                                             </div>
-                                            <div className="flex items-center gap-1" title="Comments">
-                                                <FiMessageSquare className="w-3.5 h-3.5 text-sky-400/80" />
-                                                <span>0</span>
+                                            <div className="flex items-center gap-1" title="Favorites">
+                                                <FiHeart className="w-3.5 h-3.5 text-sky-400/80" />
+                                                {/* আপনার ব্যাকএন্ডের ডাটা মডেল অনুযায়ী নিচের যেকোনো ১টি লাইনের কমেন্ট আনকমেন্ট করুন */}
+                                                <span>{favoriteCount[lesson._id] || 0}</span> 
+                                                {/* অথবা যদি অ্যারে হয়: <span>{lesson.favorites?.length || 0}</span> */}
                                             </div>
                                         </div>
                                     </Table.Cell>
@@ -148,13 +165,14 @@ const LessonsTable = ({ lessons, user }) => {
                                     {/* ৬. অ্যাকশন বাটনস */}
                                     <Table.Cell className="text-right">
                                         <div className="flex items-center justify-end gap-2">
-                                            <Button title="View Details" size="sm" isIconOnly className="bg-white/5 border border-white/10 text-white hover:bg-white/10 rounded-xl h-8 w-8 cursor-pointer">
-                                                <FiInfo className="w-3.5 h-3.5" />
-                                            </Button>
-                                          
-                                            <EditLessonsFormWithModal lesson={lesson} user={user}/>
+                                            <Link href={`/public-lessons/${lesson._id}`}> 
+                                                <Button title="View Details" size="sm" isIconOnly className="bg-white/5 border border-white/10 text-white hover:bg-white/10 rounded-xl h-8 w-8 cursor-pointer">
+                                                    <FiInfo className="w-3.5 h-3.5" />
+                                                </Button>
+                                            </Link>
 
-                                         <DeleteLessonWithModal lesson={lesson}/>
+                                            <EditLessonsFormWithModal lesson={lesson} user={user} />
+                                            <DeleteLessonWithModal lesson={lesson} />
                                         </div>
                                     </Table.Cell>
 

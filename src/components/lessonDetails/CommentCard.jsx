@@ -5,6 +5,7 @@ import { getCommentsByLessonId } from "@/lib/api/comments";
 import { Avatar, TextArea, Button, Form } from "@heroui/react"; // TextArea ব্যবহার করা হয়েছে
 import { useEffect, useState } from "react";
 import { FiMessageCircle, FiSend, FiUser } from "react-icons/fi";
+import { toast } from "sonner";
 
 export default function CommentCard({ lesson, user }) {
   const [text, setText] = useState('');
@@ -27,6 +28,10 @@ export default function CommentCard({ lesson, user }) {
   // নতুন কমেন্ট সাবমিট করা
   const handleComment = async (e) => {
     e.preventDefault();
+    if(!user){
+      toast.error('please logged in to comment')
+     return 
+    }
     if (isDisabled) return;
 
     const data = {
