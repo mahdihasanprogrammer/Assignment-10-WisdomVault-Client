@@ -22,21 +22,25 @@ const MainNavbar = () => {
   const publicLinks = [
     { label: "Home", href: "/" },
     { label: "Public Lessons", href: "/public-lessons" },
-
   ];
 
-  // 2. Conditional Protected Links Matrix
+  // 2. Conditional Protected Links Matrix (For normal users)
   const protectedLinks = user?.role === 'user' ? [
     { label: "Add Lesson", href: "/dashboard/add-lesson" },
     { label: "My Lessons", href: "/dashboard/my-lessons" },
     { label: "Favorites", href: "/dashboard/favorites" }
   ] : [];
 
-  // Dropdown Items Matrix Mapping
-  const dropdownItems = [
-    { label: "Profile", href: "/dashboard/profile", icon: <FiUser className="text-purple-400" /> },
-    { label: "Dashboard", href: "/dashboard", icon: <FiLayout className="text-purple-400" /> },
-  ];
+  // ৩. ডাইনামিক ড্রপডাউন আইটেম ম্যাট্রিক্স (ইউজার এবং এডমিন রোল অনুযায়ী)
+  const dropdownItems = user?.role === 'admin' 
+    ? [
+        { label: "Profile", href: "/dashboard/admin/profile", icon: <FiUser className="text-purple-400" /> },
+        { label: "Dashboard", href: "/dashboard/admin", icon: <FiLayout className="text-purple-400" /> },
+      ]
+    : [
+        { label: "Profile", href: "/dashboard/profile", icon: <FiUser className="text-purple-400" /> },
+        { label: "Dashboard", href: "/dashboard", icon: <FiLayout className="text-purple-400" /> },
+      ];
 
   const handleLogout = async () => {
     setIsDropdownOpen(false);
@@ -79,11 +83,12 @@ const MainNavbar = () => {
           ))}
 
           {/* Only protected segment observes the loading stream wrapper */}
-          {isPending ?
+          {isPending ? (
             <div className="bg-purple-500/10 border border-purple-500/20 px-4 py-1.5 rounded-xl text-xs text-purple-400 animate-pulse font-medium tracking-wide">
               loading modules...
             </div>
-            : user?.role === 'user' &&
+          ) : (
+            user?.role === 'user' &&
             protectedLinks.map((link) => (
               <Link
                 key={link.href}
@@ -92,9 +97,8 @@ const MainNavbar = () => {
               >
                 {link.label}
               </Link>
-            )
-
-            )}
+            ))
+          )}
         </div>
 
         {/* UTILITY ACTION TIER */}
@@ -144,10 +148,12 @@ const MainNavbar = () => {
                       <div className="absolute right-0 mt-3 w-60 bg-[#0A051A]/95 border border-white/10 rounded-2xl shadow-2xl backdrop-blur-2xl py-1.5 z-50 animate-in fade-in slide-in-from-top-2 duration-100">
                         <div className="px-4 py-2.5 border-b border-white/5">
                           <p className="text-lg font-bold text-white truncate">{user?.name || 'User'}</p>
-                          <p className="text-xs text-purple-400/70 truncate mt-0.5">{user?.email}</p>
+                          <p className="text-xs text-purple-400/70 truncate mt-0.5">
+                            {user?.email} <span className="text-[10px] bg-purple-500/20 border border-purple-500/30 text-purple-300 uppercase px-1.5 py-0.5 rounded font-black ml-1">{user?.role}</span>
+                          </p>
                         </div>
 
-                        {/* Mapped Dropdown System Items */}
+                        {/* Mapped Dropdown System Items (Dynamic for User/Admin) */}
                         {dropdownItems.map((item) => (
                           <Link
                             key={item.href}
@@ -160,7 +166,7 @@ const MainNavbar = () => {
                         ))}
 
                         <div className="border-t border-white/5 mt-1 pt-1">
-                          <button onClick={handleLogout} className="w-full text-left flex items-center gap-2 px-4 py-2 text-sm text-rose-400 hover:bg-rose-500/10 transition-all font-medium">
+                          <button onClick={handleLogout} className="w-full text-left flex items-center gap-2 px-4 py-2 text-sm text-rose-400 hover:bg-rose-500/10 transition-all font-medium cursor-pointer">
                             <FiLogOut /> Logout
                           </button>
                         </div>
@@ -224,16 +230,26 @@ const MainNavbar = () => {
 
           {!isPending && user && (
             <>
-              <Link href="/dashboard" onClick={() => setIsMobileMenuOpen(false)} className="text-xs font-medium text-white px-3 py-2 rounded-lg hover:bg-white/10">Dashboard</Link>
+              {/* মোবাইল মেনুতেও ডাইনামিক ড্যাশবোর্ড রুট ট্রিগার */}
+              <Link 
+                href={user.role === 'admin' ? "/dashboard/admin" : "/dashboard"} 
+                onClick={() => setIsMobileMenuOpen(false)} 
+                className="text-xs font-medium text-white px-3 py-2 rounded-lg hover:bg-white/10"
+              >
+                Dashboard ({user.role === 'admin' ? 'Admin' : 'User'})
+              </Link>
+              
               <div className="pt-2 mt-1 border-t border-white/10 flex flex-col gap-2">
-                {!isPremium ? (
-                  <Link href="/pricing" onClick={() => setIsMobileMenuOpen(false)} className="w-full text-center text-xs bg-linear-to-r from-purple-600 to-indigo-600 text-white py-2.5 rounded-xl font-bold shadow-md flex items-center justify-center gap-1.5">
-                    Upgrade Premium <FiZap className="text-xs text-white" />
-                  </Link>
-                ) : (
-                  <span className="w-full text-center text-xs bg-white/10 border border-purple-500/20 text-purple-300 py-1.5 rounded-xl font-bold flex items-center justify-center gap-1.5">
-                    Premium Subscriber <FiAward className="text-xs text-purple-400" />
-                  </span>
+                {user.role === 'user' && (
+                  !isPremium ? (
+                    <Link href="/pricing" onClick={() => setIsMobileMenuOpen(false)} className="w-full text-center text-xs bg-linear-to-r from-purple-600 to-indigo-600 text-white py-2.5 rounded-xl font-bold shadow-md flex items-center justify-center gap-1.5">
+                      Upgrade Premium <FiZap className="text-xs text-white" />
+                    </Link>
+                  ) : (
+                    <span className="w-full text-center text-xs bg-white/10 border border-purple-500/20 text-purple-300 py-1.5 rounded-xl font-bold flex items-center justify-center gap-1.5">
+                      Premium Subscriber <FiAward className="text-xs text-purple-400" />
+                    </span>
+                  )
                 )}
                 <button onClick={handleLogout} className="w-full text-center text-xs bg-rose-500/10 text-rose-400 py-2.5 rounded-xl font-medium">
                   Logout

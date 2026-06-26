@@ -10,6 +10,7 @@ import DashboardChart from "@/components/dashboard/Dashboard";
 const DashboardHomePage = async () => {
     const user = await getUserSession();
     if (!user?.id) return <div className="text-white p-8">Unauthorized access. Please login.</div>;
+    if (user?.role !=="user") return <div className="text-white p-8">Forbidden access. Please login.</div>;
 
     // প্যারালাল ডাটা ফেচিং
     const [totalSaveLesson, lessonsData] = await Promise.all([
