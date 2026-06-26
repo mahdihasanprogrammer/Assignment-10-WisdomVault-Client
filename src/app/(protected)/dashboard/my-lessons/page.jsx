@@ -8,6 +8,7 @@ import { FiPlus, FiBox } from "react-icons/fi";
 
 const MyLessonsPage = async () => {
     const user = await getUserSession();
+    if (!user?.id) return <div className="text-white p-8">Unauthorized access. Please login.</div>;
     const lessons = await getLessonByCreatorId(user?.id);
  
 
