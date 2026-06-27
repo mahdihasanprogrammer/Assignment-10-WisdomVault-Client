@@ -15,9 +15,10 @@ const LessonCard = ({ lesson }) => {
     const { data: session } = useSession();
     const user = session?.user;
     const premiumUser = user?.isPremium;
+    const currentUser = user?.id === lesson.creatorId;
    
     // ULTRA PREMIUM LOCKED STATE WITH REDUCED SLICK BORDER SIZE
-    if (isPremium && premiumUser !== true) {
+    if (!currentUser &&isPremium && premiumUser !== true) {
         return (
             <Card className="relative bg-[#090416]/80 border border-white/4 rounded-2xl p-6 shadow-[0_25px_50px_-12px_rgba(0,0,0,0.5)] backdrop-blur-xl min-h-72.5 flex flex-col justify-between overflow-hidden group">
                 

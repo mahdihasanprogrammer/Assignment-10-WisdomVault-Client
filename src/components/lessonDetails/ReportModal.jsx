@@ -7,8 +7,11 @@ import {
 } from '@heroui/react';
 
 import { FiFlag } from 'react-icons/fi';
+import { toast } from 'sonner';
 
-const ReportModal = ({ handleReport }) => {
+const ReportModal = ({ handleReport, user }) => {
+
+
   const [isConfirmOpen, setIsConfirmOpen] = useState(false);
   const [isFormOpen, setIsFormOpen] = useState(false);
 
@@ -16,7 +19,15 @@ const ReportModal = ({ handleReport }) => {
   const [reportReason, setReportReason] = useState("");
   const [reportDetails, setReportDetails] = useState("");
 
+
   const handleFirstConfirm = () => {
+    if (!user) {
+      toast.error('please log in to report')
+    }
+    if (user?.role !== "user") {
+      toast.error("only users can report");
+      return
+    }
     setIsConfirmOpen(false);
     setIsFormOpen(true);
   };
@@ -50,7 +61,7 @@ const ReportModal = ({ handleReport }) => {
           <AlertDialog.Container className="fixed inset-0 flex items-center justify-center p-4 z-[9999] mx-auto">
             <AlertDialog.Dialog className="w-full sm:max-w-[400px] bg-slate-950 border border-white/10 rounded-2xl p-6 shadow-2xl relative">
               <AlertDialog.CloseTrigger onClick={() => setIsConfirmOpen(false)} className="text-white/40 hover:text-white transition-colors absolute top-4 right-4 cursor-pointer" />
-              
+
               <AlertDialog.Header className="flex flex-col items-center pt-2">
                 <AlertDialog.Icon status="danger" className="bg-red-500/10 text-red-500 border border-red-500/20 p-1 rounded-full mb-4" />
                 <AlertDialog.Heading className='text-center'>
@@ -58,22 +69,22 @@ const ReportModal = ({ handleReport }) => {
                   <p className='text-base text-white/50 mt-1'>You want to report this lesson?</p>
                 </AlertDialog.Heading>
               </AlertDialog.Header>
-              
+
               <AlertDialog.Body className="py-4">
                 <p className='text-sm text-center text-white/70 leading-relaxed px-2'>
                   Please make sure this content violates our community guidelines before reporting. This process involves manual audit.
                 </p>
               </AlertDialog.Body>
-              
+
               <AlertDialog.Footer className="flex justify-end gap-3 pt-2">
-                <Button 
-                  onClick={() => setIsConfirmOpen(false)} 
+                <Button
+                  onClick={() => setIsConfirmOpen(false)}
                   className="bg-white/5 border border-white/10 text-white/80 hover:text-white rounded-xl text-xs px-4 h-9 font-medium transition-all duration-200 active:scale-[0.97] cursor-pointer"
                 >
                   Cancel
                 </Button>
-                <Button 
-                  onClick={handleFirstConfirm} 
+                <Button
+                  onClick={handleFirstConfirm}
                   className="bg-red-600 hover:bg-red-500 text-white font-semibold rounded-xl text-xs px-4 h-9 shadow-lg shadow-red-600/20 transition-all duration-200 active:scale-[0.97] cursor-pointer"
                 >
                   Yes, report it!
@@ -91,7 +102,7 @@ const ReportModal = ({ handleReport }) => {
           <AlertDialog.Container className="fixed mx-auto inset-0 flex items-center justify-center p-4 z-[9999]">
             <AlertDialog.Dialog className="w-full sm:min-w-100 bg-slate-950 border border-white/10 rounded-2xl shadow-2xl p-6 relative">
               <AlertDialog.CloseTrigger onClick={() => setIsFormOpen(false)} className="text-white/40 hover:text-white transition-colors absolute top-4 right-4 cursor-pointer" />
-              
+
               <AlertDialog.Header className="pt-2">
                 <AlertDialog.Heading>
                   <h2 className='text-xl font-bold text-purple-400 tracking-tight'>Report Details</h2>
@@ -158,8 +169,8 @@ const ReportModal = ({ handleReport }) => {
               </AlertDialog.Body>
 
               <AlertDialog.Footer className="flex justify-end gap-3 pt-2">
-                <Button 
-                  onClick={() => setIsFormOpen(false)} 
+                <Button
+                  onClick={() => setIsFormOpen(false)}
                   className="bg-white/5 border border-white/10 text-white/80 hover:text-white rounded-xl text-xs px-4 h-9 font-medium transition-all duration-200 active:scale-[0.97] cursor-pointer"
                 >
                   Back
@@ -168,8 +179,8 @@ const ReportModal = ({ handleReport }) => {
                   onClick={handleFinalSubmit}
                   isDisabled={!reportReason}
                   className={`px-5 h-9 rounded-xl text-white text-xs font-bold transition-all duration-300 active:scale-[0.97] cursor-pointer flex items-center justify-center
-                    ${!reportReason 
-                      ? 'bg-purple-900/20 text-white/40 border border-white/5 cursor-not-allowed shadow-none' 
+                    ${!reportReason
+                      ? 'bg-purple-900/20 text-white/40 border border-white/5 cursor-not-allowed shadow-none'
                       : 'bg-gradient-to-r from-purple-600 to-indigo-600 shadow-lg shadow-purple-500/20 hover:opacity-95'
                     }`}
                 >

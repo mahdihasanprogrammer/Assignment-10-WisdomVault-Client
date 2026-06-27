@@ -45,6 +45,12 @@ const LessonDetailsManager = ({ lesson, user, totalFavorite, isFavorite }) => {
             toast.error("Please log in to like");
             return
         }
+        if(user?.role !== "user"){
+            toast.error("only users can like");
+            return
+        }
+
+
         // ক্লিক করার সাথে সাথে UI পরিবর্তন
         setIsLiked(!isLiked);
         setLikesCount(prev => isLiked ? prev - 1 : prev + 1);
@@ -68,6 +74,11 @@ const LessonDetailsManager = ({ lesson, user, totalFavorite, isFavorite }) => {
             toast.error('Please log in to Saved');
             return
         }
+          if(user?.role !== "user"){
+            toast.error("Only users can saved");
+            return
+        }
+
         // ক্লিক করার সাথে সাথে UI পরিবর্তন
         setFavorited(!favorited);
         setTotalSaved(prev => favorited ? prev - 1 : prev + 1);
@@ -89,12 +100,10 @@ const LessonDetailsManager = ({ lesson, user, totalFavorite, isFavorite }) => {
 
     // 🚩 রিপোর্ট হ্যান্ডলার
     const handleReport = async ({ reason, details }) => {
-        if (!user) {
-            toast.error('Please logged in to report');
-            return
-        }
+
         const reportData = {
             lessonId: lesson._id,
+            lessonTitle: lesson.lessonTitle,
             reporterUserId: user?.id,
             reporterUserEmail: user?.email,
             reportReason: reason,
@@ -230,7 +239,7 @@ const LessonDetailsManager = ({ lesson, user, totalFavorite, isFavorite }) => {
                         </Button>
 
                         {/* 🚩 Report Button */}
-                        <ReportModal handleReport={handleReport} />
+                        <ReportModal user={user} handleReport={handleReport} />
                     </div>
 
                 </div>

@@ -4,7 +4,7 @@ import { redirect } from "next/navigation";
 const ProtectedLayout = async({ children }) => {
     const user = await getUserSession();
     if(!user){
-        redirect('/unauthorized')
+        redirect('/signin')
     }
     return (
         <div className='flex flex-col min-h-screen'>
