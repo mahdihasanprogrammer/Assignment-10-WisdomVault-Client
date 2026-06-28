@@ -2,6 +2,7 @@
 
 import { toast } from "sonner";
 import { serverMutation } from "../core/server";
+import { data } from "motion/react-client";
 
 
 
@@ -52,3 +53,19 @@ export const deleteLesson = async (lessonId) =>{
     return result
 }
 
+// admin related api;
+export const changeLessonStatus = async(lessonId) =>{
+    const result = await serverMutation(`/api/lesson/change-status/${lessonId}`, {}, 'PATCH');
+    return result
+} 
+
+export const changeLessonFeatured = async (lessonId, currentStatus)=>{
+    const result =await serverMutation(`/api/lesson/featured/${lessonId}`, currentStatus, 'PATCH');
+    return result
+}
+
+// delete lesson permanently;
+export const deleteLessonPermanently = async (lessonId) =>{
+    const result = await serverMutation(`/api/delete-lesson/${lessonId}`, {}, 'DELETE');
+    return result
+}

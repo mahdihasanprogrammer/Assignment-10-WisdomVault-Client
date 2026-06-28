@@ -116,7 +116,7 @@ const AdminProfileClient = ({ initialAdminData }) => {
                                 labelPlacement="outside"
                                 placeholder="Paste your image URL here..."
                                 defaultValue={admin?.image}
-                                className='min-w-full sm:min-w-70'
+                                className='min-w-full sm:min-w-80'
                             />
                         </div>
 
