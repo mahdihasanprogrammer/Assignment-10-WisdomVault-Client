@@ -24,7 +24,7 @@ const ReportModal = ({ handleReport, user }) => {
     if (!user) {
       toast.error('please log in to report')
     }
-    if (user?.role !== "user") {
+    if (user?.userRole !== "user") {
       toast.error("only users can report");
       return
     }

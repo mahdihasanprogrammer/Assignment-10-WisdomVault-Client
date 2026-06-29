@@ -1,7 +1,7 @@
 import { getLessonByCreatorId } from "@/lib/api/lessons";
 import { getUserSession } from "@/lib/session";
 import LessonsTable from "./LessonsTable";
-import { Button } from "@heroui/react";
+
 import Link from "next/link";
 import { FiPlus, FiBox } from "react-icons/fi";
 

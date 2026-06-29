@@ -32,6 +32,10 @@ export default function CommentCard({ lesson, user }) {
       toast.error('please logged in to comment')
      return 
     }
+    if(user.userRole !== "user"){
+      toast.error('Only user can comment')
+     return 
+    }
     if (isDisabled) return;
 
     const data = {

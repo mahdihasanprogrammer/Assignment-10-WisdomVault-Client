@@ -45,7 +45,7 @@ const LessonDetailsManager = ({ lesson, user, totalFavorite, isFavorite }) => {
             toast.error("Please log in to like");
             return
         }
-        if(user?.role !== "user"){
+        if(user?.userRole !== "user"){
             toast.error("only users can like");
             return
         }
@@ -74,7 +74,7 @@ const LessonDetailsManager = ({ lesson, user, totalFavorite, isFavorite }) => {
             toast.error('Please log in to Saved');
             return
         }
-          if(user?.role !== "user"){
+          if(user?.userRole !== "user"){
             toast.error("Only users can saved");
             return
         }
@@ -247,7 +247,7 @@ const LessonDetailsManager = ({ lesson, user, totalFavorite, isFavorite }) => {
 
             {/* RIGHT COLUMN: Sidebar Component Placement */}
             <div className="lg:col-span-1 space-y-6 w-full lg:border-l lg:border-white/5 lg:pl-5 flex flex-col">
-                <AuthorCard lesson={lesson} />
+                <AuthorCard lesson={lesson} user ={user} />
                 <CommentCard lesson={lesson} user={user} />
             </div>
 

@@ -1,6 +1,6 @@
-import { serverFetch } from "../core/server"
+import { protectedFetch } from "../core/server"
 
 export const getLessonsReport = async ()=>{
-    const result = await serverFetch(`/api/reported-lessons`);
+    const result = await protectedFetch(`/api/reported-lessons`);
     return result
 }

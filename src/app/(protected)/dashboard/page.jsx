@@ -5,12 +5,15 @@ import Link from "next/link";
 import { FiBookOpen, FiHeart, FiPlus, FiGrid, FiArrowRight, FiActivity } from "react-icons/fi";
 import { Button } from "@heroui/react";
 import DashboardChart from "@/components/dashboard/Dashboard";
+import { redirect } from "next/navigation";
 
 
 const DashboardHomePage = async () => {
     const user = await getUserSession();
     if (!user?.id) return <div className="text-white p-8">Unauthorized access. Please login.</div>;
-    if (user?.role !=="user") return <div className="text-white p-8">Forbidden access. Please login.</div>;
+    if (user?.userRole !=="user") {
+        redirect('/forbidden')
+    }
 
     // প্যারালাল ডাটা ফেচিং
     const [totalSaveLesson, lessonsData] = await Promise.all([

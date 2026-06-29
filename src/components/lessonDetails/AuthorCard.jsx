@@ -6,7 +6,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { FiUser } from "react-icons/fi";
 
-export default function AuthorCard({ lesson }) {
+export default function AuthorCard({ lesson, user}) {
   const [totalLesson, setTotalLessons] = useState(0);
   useEffect(()=>{
     const fetchAuthorLessons = async()=>{

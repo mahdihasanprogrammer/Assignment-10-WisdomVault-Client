@@ -1,9 +1,10 @@
 
 "use server"
-import { serverFetch } from "../core/server"
+import { protectedFetch, serverFetch } from "../core/server"
 
 export const getLessonByCreatorId = async (creatorId) =>{
-    return serverFetch(`/api/my-lessons?creatorId=${creatorId}`)
+    const result= protectedFetch(`/api/my-lessons?creatorId=${creatorId}`)
+    return result
 }
 
 export const getAllLessons = async(query) =>{
@@ -40,12 +41,12 @@ export const getMostSavedLessons = async()=>{
 
 // admin api;
 export const getAllLessonsForAdmin = async (query)=>{
-    const result = await serverFetch(`/api/all-lessons/admin?${query}`);
+    const result = await protectedFetch(`/api/all-lessons/admin?${query}`);
     return result
 }
 
 export const getAdminDashboardInfo = async () =>{
-    const result = await serverFetch(`/api/admin/dashboard/info`); 
+    const result = await protectedFetch(`/api/admin/dashboard/info`); 
     return result;
 }
 

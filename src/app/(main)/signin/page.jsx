@@ -31,11 +31,11 @@ const SignInPage = () => {
       });
          console.log('data', data)
 
-      if (data?.user?.role==='user') {
+      if (data?.user?.userRole==='user') {
         router.push('/')
         toast.success("Welcome back! 🚀");
       }
-      if(data?.user?.role === "admin"){
+      if(data?.user?.userRole === "admin"){
         toast.success("Welcome back! 🚀");
         router.push('/dashboard/admin')
       }
