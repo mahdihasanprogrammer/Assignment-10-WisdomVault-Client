@@ -32,22 +32,31 @@ const MainNavbar = () => {
   ] : [];
 
   // ৩. ডাইনামিক ড্রপডাউন আইটেম ম্যাট্রিক্স (ইউজার এবং এডমিন রোল অনুযায়ী)
-  const dropdownItems = user?.role === 'admin' 
+  const dropdownItems = user?.role === 'admin'
     ? [
-        { label: "Profile", href: "/dashboard/admin/profile", icon: <FiUser className="text-purple-400" /> },
-        { label: "Dashboard", href: "/dashboard/admin", icon: <FiLayout className="text-purple-400" /> },
-      ]
+      { label: "Profile", href: "/dashboard/admin/profile", icon: <FiUser className="text-purple-400" /> },
+      { label: "Dashboard", href: "/dashboard/admin", icon: <FiLayout className="text-purple-400" /> },
+    ]
     : [
-        { label: "Profile", href: "/dashboard/profile", icon: <FiUser className="text-purple-400" /> },
-        { label: "Dashboard", href: "/dashboard", icon: <FiLayout className="text-purple-400" /> },
-      ];
+      { label: "Profile", href: "/dashboard/profile", icon: <FiUser className="text-purple-400" /> },
+      { label: "Dashboard", href: "/dashboard", icon: <FiLayout className="text-purple-400" /> },
+    ];
 
   const handleLogout = async () => {
+   
     setIsDropdownOpen(false);
     setIsMobileMenuOpen(false);
-    await authClient.signOut();
-    router.push('/signin');
-    router.refresh();
+    await authClient.signOut({
+      fetchOptions: {
+        onSuccess: () => {
+          router.refresh()
+          router.push("/signin")
+          
+        },
+      },
+    });
+     
+
   };
 
   // Base Shared Glassmorphic Styles
@@ -231,14 +240,14 @@ const MainNavbar = () => {
           {!isPending && user && (
             <>
               {/* মোবাইল মেনুতেও ডাইনামিক ড্যাশবোর্ড রুট ট্রিগার */}
-              <Link 
-                href={user.role === 'admin' ? "/dashboard/admin" : "/dashboard"} 
-                onClick={() => setIsMobileMenuOpen(false)} 
+              <Link
+                href={user.role === 'admin' ? "/dashboard/admin" : "/dashboard"}
+                onClick={() => setIsMobileMenuOpen(false)}
                 className="text-xs font-medium text-white px-3 py-2 rounded-lg hover:bg-white/10"
               >
                 Dashboard ({user.role === 'admin' ? 'Admin' : 'User'})
               </Link>
-              
+
               <div className="pt-2 mt-1 border-t border-white/10 flex flex-col gap-2">
                 {user.role === 'user' && (
                   !isPremium ? (

@@ -33,7 +33,7 @@ const SignUpPage = () => {
         image: formData.image,
         email: formData.email,
         password: formData.password,
-        role: role,
+        userRole: role,
         ...(role === "user" && {isPremium: false})
       });
 

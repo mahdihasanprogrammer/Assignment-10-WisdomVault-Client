@@ -11,10 +11,12 @@ import { LuSparkles } from 'react-icons/lu';
 import { FcGoogle } from 'react-icons/fc';
 
 const SignInPage = () => {
+
   const [loading, setLoading] = useState(false);
   const [googleLoading, setGoogleLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const router = useRouter();
+  
 
   const handleSignIn = async (e) => {
     e.preventDefault();

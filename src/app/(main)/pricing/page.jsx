@@ -1,37 +1,12 @@
 "use client";
 
-import React, { useState } from 'react';
+
 import { FiCheck, FiX, FiZap, FiShield } from 'react-icons/fi';
 import { FaCrown } from 'react-icons/fa';
-import { Button } from '@heroui/react';
+
 
 const PricingPage = () => {
-    const [loading, setLoading] = useState(false);
-
-    const handleUpgrade = async () => {
-        try {
-            setLoading(true);
-            const response = await fetch('/api/payment/create-checkout-session', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            });
-
-            const data = await response.json();
-
-            if (data?.url) {
-                window.location.href = data.url;
-            } else {
-                console.error("Checkout session URL not found");
-            }
-        } catch (error) {
-            console.error("Error initiating payment:", error);
-        } finally {
-            setLoading(false);
-        }
-    };
-
+  
     // কম্প্যারিসন টেবিলের ৮টি রো ডাটা
     const features = [
         { name: "Number of lessons that can be created", free: "Up to 5 Lessons", premium: "Unlimited Lessons" },
@@ -47,7 +22,7 @@ const PricingPage = () => {
     return (
         <div className="min-h-screen bg-[#030014] text-white py-20 px-4 sm:px-6 lg:px-8 relative overflow-hidden flex flex-col items-center">
             {/* ব্যাকগ্রাউন্ড মেগা গ্লো ইফেক্ট */}
-            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-purple-600/10 blur-[180px] rounded-full pointer-events-none" />
+            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-150 h-150 bg-purple-600/10 blur-[180px] rounded-full pointer-events-none" />
 
             {/* হেডার সেকশন */}
             <div className="max-w-3xl mx-auto text-center mb-16 relative z-10">
@@ -55,7 +30,7 @@ const PricingPage = () => {
                     Exclusive Premium Tier
                 </span>
                 <h1 className="text-4xl sm:text-6xl font-black tracking-tight text-white/95 mt-4">
-                    Unlock <span className="bg-gradient-to-r from-purple-400 via-pink-500 to-amber-400 bg-clip-text text-transparent">Lifetime Access</span>
+                    Unlock <span className="bg-linear-to-r from-purple-400 via-pink-500 to-amber-400 bg-clip-text text-transparent">Lifetime Access</span>
                 </h1>
                 <p className="mt-4 text-xs sm:text-sm text-white/50 max-w-lg mx-auto leading-relaxed">
                     Say goodbye to limitations. Elevate your learning and contribution capability with our single premium pass.
@@ -66,13 +41,13 @@ const PricingPage = () => {
             <div className="w-full max-w-md mx-auto mb-24 relative z-10">
                 <div className="border-2 border-purple-500 bg-[#0c0721]/60 backdrop-blur-2xl rounded-3xl p-8 sm:p-10 shadow-[0_0_80px_-15px_rgba(139,92,246,0.4)] relative overflow-hidden">
                     {/* লিনিয়ার লাইট ইফেক্ট কার্ডের ভেতরে */}
-                    <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-purple-400 to-transparent opacity-50" />
-                    
+                    <div className="absolute top-0 left-0 right-0 h-0.5 bg-linear-to-r from-transparent via-purple-400 to-transparent opacity-50" />
+
                     {/* টপ ব্যাজ */}
-                    <div className="absolute -top-3.5 right-8 px-3 py-1 bg-gradient-to-r from-amber-500 to-purple-600 rounded-full text-[10px] font-black tracking-wider uppercase flex items-center gap-1 shadow-lg">
+                    <div className="absolute -top-3.5 right-8 px-3 py-1 bg-linear-to-r from-amber-500 to-purple-600 rounded-full text-[10px] font-black tracking-wider uppercase flex items-center gap-1 shadow-lg">
                         <FaCrown className="w-3 h-3 text-amber-300" /> Premium Access
                     </div>
-                    
+
                     {/* কার্ড কন্টেন্ট */}
                     <div className="flex items-center justify-between mb-6">
                         <h3 className="text-xl font-bold text-purple-300 flex items-center gap-2">
@@ -80,27 +55,27 @@ const PricingPage = () => {
                         </h3>
                         <span className="px-2.5 py-1 bg-purple-500/20 border border-purple-500/30 rounded-lg text-[10px] font-bold text-purple-300 uppercase tracking-wide">One-Time</span>
                     </div>
-                    
+
                     <div className="mb-6 flex items-baseline">
-                        <span className="text-5xl font-black bg-gradient-to-r from-white via-white to-white/70 bg-clip-text text-transparent">৳১৫০০</span>
+                        <span className="text-5xl font-black bg-linear-to-r from-white via-white to-white/70 bg-clip-text text-transparent">৳১৫০০</span>
                         <span className="text-purple-400 text-xs font-bold ml-2">/ No Renewal Fees</span>
                     </div>
-                    
+
                     <p className="text-xs text-white/60 mb-8 leading-relaxed">
                         Get permanent full access to all features forever. No monthly subscriptions, no hidden fees, pay once and keep it for life.
                     </p>
-                    
+
                     {/* HeroUI প্রিমিয়াম আপগ্রেড বাটন */}
-                    <Button 
-                        onPress={handleUpgrade}
-                        isLoading={loading}
-                        className="w-full py-7 bg-gradient-to-r from-purple-600 via-pink-600 to-purple-600 bg-[size:200%_auto] hover:bg-right transition-all duration-500 rounded-2xl text-xs font-black tracking-wider text-white shadow-[0_8px_30px_rgba(168,85,247,0.4)] uppercase"
-                        radius="xl"
-                        size="lg"
-                    >
-                        Upgrade to Premium
-                    </Button>
-                    
+               
+                    <form action="/api/checkout_sessions" method="POST">
+                        <section>
+                            <button type="submit" role="link"
+                             className="w-full py-7 bg-linear-to-r from-purple-600 via-pink-600 to-purple-600 bg-[size:200%_auto] hover:bg-right transition-all duration-500 rounded-2xl text-xs font-black tracking-wider text-white shadow-[0_8px_30px_rgba(168,85,247,0.4)] uppercase">
+                                 Upgrade to Premium
+                            </button>
+                        </section>
+                    </form>
+
                     <div className="flex items-center gap-1.5 justify-center mt-5 text-[10px] text-white/40 font-semibold">
                         <FiShield className="text-emerald-500 w-3.5 h-3.5" /> 100% Secure Checkout via Stripe Test Mode
                     </div>
@@ -114,24 +89,24 @@ const PricingPage = () => {
                     <p className="text-[11px] text-white/40 mt-1 font-medium">Deep-dive look at what you get with each tier</p>
                 </div>
 
-                <div className="border border-white/[0.06] rounded-2xl bg-[#070314]/20 backdrop-blur-xl overflow-hidden shadow-2xl">
+                <div className="border border-white/6rounded-2xl bg-[#070314]/20 backdrop-blur-xl overflow-hidden shadow-2xl">
                     <div className="overflow-x-auto">
                         <table className="w-full text-left border-collapse">
                             <thead>
-                                <tr className="border-b border-white/[0.06] bg-white/[0.02]">
+                                <tr className="border-b border-white/6bg-white/[0.02]">
                                     <th className="p-5 text-xs font-bold text-white/40 uppercase tracking-wider w-1/2">Features</th>
                                     <th className="p-5 text-xs font-bold text-white/40 uppercase tracking-wider text-center w-1/4">Free</th>
                                     <th className="p-5 text-xs font-bold text-purple-400 uppercase tracking-wider text-center w-1/4">Premium</th>
                                 </tr>
                             </thead>
-                            <tbody className="divide-y divide-white/[0.04]">
+                            <tbody className="divide-y divide-white/4">
                                 {features.map((feature, idx) => (
-                                    <tr key={idx} className="hover:bg-white/[0.01] transition-colors">
+                                    <tr key={idx} className="hover:bg-white/1 transition-colors">
                                         {/* ফিচার নাম */}
                                         <td className="p-5 text-xs font-semibold text-white/80">
                                             {feature.name}
                                         </td>
-                                        
+
                                         {/* ফ্রি কলাম */}
                                         <td className="p-5 text-center text-xs">
                                             {typeof feature.free === 'string' ? (
@@ -142,13 +117,13 @@ const PricingPage = () => {
                                                 <FiX className="w-4 h-4 text-white/20 mx-auto" />
                                             )}
                                         </td>
-                                        
+
                                         {/* প্রিমিয়াম কলাম */}
-                                        <td className="p-5 text-center text-xs bg-purple-500/[0.01]">
+                                        <td className="p-5 text-center text-xs bg-purple-500/1">
                                             {typeof feature.premium === 'string' ? (
                                                 <span className="text-purple-300 font-black">{feature.premium}</span>
                                             ) : feature.premium ? (
-                                                <FiCheck className="w-4 h-4 text-purple-400 mx-auto stroke-[3]" />
+                                                <FiCheck className="w-4 h-4 text-purple-400 mx-auto stroke-3" />
                                             ) : (
                                                 <FiX className="w-4 h-4 text-white/20 mx-auto" />
                                             )}
