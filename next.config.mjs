@@ -1,15 +1,18 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactCompiler: true,
-  images: { 
+  experimental: {
+    serverComponentsExternalPackages: ['@better-auth/kysely-adapter'],
+  },
+  images: {
     remotePatterns: [
-      { 
-        protocol: 'https', 
-        hostname: '**', 
-        port: '', 
+      {
+        protocol: 'https',
+        hostname: '**',
+        port: '',
         pathname: '/**', // Fixed wildcard syntax
       }
-    ], 
+    ],
   },
 };
 

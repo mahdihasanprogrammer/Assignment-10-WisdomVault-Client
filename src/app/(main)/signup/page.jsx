@@ -1,6 +1,6 @@
 "use client";
 
-import { signIn, signUp } from '@/lib/auth-client';
+
 import { Button, Description, FieldError, Form, Input, Label, Spinner, TextField } from '@heroui/react';
 import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
@@ -9,6 +9,7 @@ import Link from 'next/link';
 import { FiCheckCircle, FiShield, FiCpu, FiEye, FiEyeOff, FiLayers } from 'react-icons/fi';
 import { LuSparkles, LuUserPlus } from 'react-icons/lu';
 import { FcGoogle } from 'react-icons/fc';
+import { signUp } from '@/lib/auth-client';
 
 
 
@@ -36,6 +37,7 @@ const SignUpPage = () => {
         ...(role === "user" && {isPremium: false})
       });
 
+      console.log('data', data)
 
       if (data) {
         router.push('/signin');

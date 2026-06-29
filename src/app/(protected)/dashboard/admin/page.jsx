@@ -38,7 +38,7 @@ const DashboardAdminHomePage = async () => {
     ];
 
     return (
-        <div className="space-y-6 container mx-auto p-1 text-white">
+        <div className="space-y-6 container mx-auto px-4 md:px-6 py-8 text-white">
             
             {/* ড্যাশবোর্ড হেডার */}
             <div>
