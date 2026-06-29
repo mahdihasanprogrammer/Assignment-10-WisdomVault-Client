@@ -10,7 +10,7 @@ export async function proxy(request) {
     if (!session) {
         return NextResponse.redirect(new URL('/signin', request.nextUrl))
     }
-   else{
+   if(session){
     return NextResponse.next()
    }
     

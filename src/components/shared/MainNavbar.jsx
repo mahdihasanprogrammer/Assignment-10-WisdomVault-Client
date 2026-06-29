@@ -16,6 +16,7 @@ const MainNavbar = () => {
   // Auth Hook Setup
   const { data: session, isPending } = useSession();
   const user = session?.user;
+
   const isPremium = user?.isPremium;
 
   // 1. Permanent Public Links
@@ -47,15 +48,10 @@ const MainNavbar = () => {
     setIsDropdownOpen(false);
     setIsMobileMenuOpen(false);
     await authClient.signOut({
-      fetchOptions: {
-        onSuccess: () => {
-          router.refresh()
-          router.push("/signin")
-          
-        },
-      },
+    
     });
-     
+    router.refresh()
+     router.push("/signin")
 
   };
 
@@ -134,7 +130,7 @@ const MainNavbar = () => {
                 </div>
               )}
 
-              {user ? (
+              {session ? (
                 /* AUTHENTICATED DROPDOWN CONTAINER */
                 <div className="relative">
                   <button
