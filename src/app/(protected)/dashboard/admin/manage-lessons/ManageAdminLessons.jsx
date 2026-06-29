@@ -70,10 +70,10 @@ const ManageAdminLessons = ({ initialLessons }) => {
     };
 
     return (
-        <div className="border border-white/[0.06] rounded-2xl bg-[#070314]/50 backdrop-blur-xl overflow-hidden shadow-[0_0_50px_-12px_rgba(139,92,246,0.15)]">
+        <div className="border border-white/6 rounded-2xl bg-[#070314]/50 backdrop-blur-xl overflow-hidden shadow-[0_0_50px_-12px_rgba(139,92,246,0.15)]">
 
             {/* কন্ট্রোল ফিল্টার বার */}
-            <div className="flex flex-wrap items-center gap-4 px-6 py-5 border-b border-white/[0.06] bg-white/[0.01]">
+            <div className="flex flex-wrap items-center gap-4 px-6 py-5 border-b border-white/6 bg-white/1">
                 <div className="relative group">
                     <select
                         name="category"
@@ -120,17 +120,17 @@ const ManageAdminLessons = ({ initialLessons }) => {
                 <Table.ScrollContainer>
                     <Table.Content>
                         <Table.Header>
-                            <Table.Column isRowHeader className="bg-transparent text-white/40 font-bold text-[11px] uppercase tracking-wider py-4 border-b border-white/[0.06] pl-6">LESSON</Table.Column>
-                            <Table.Column className="bg-transparent text-white/40 font-bold text-[11px] uppercase tracking-wider py-4 border-b border-white/[0.06]">CREATOR</Table.Column>
-                            <Table.Column className="bg-transparent text-white/40 font-bold text-[11px] uppercase tracking-wider py-4 border-b border-white/[0.06]">CATEGORY</Table.Column>
-                            <Table.Column className="bg-transparent text-white/40 font-bold text-[11px] uppercase tracking-wider py-4 border-b border-white/[0.06]">VISIBILITY</Table.Column>
-                            <Table.Column className="bg-transparent text-white/40 font-bold text-[11px] uppercase tracking-wider py-4 border-b border-white/[0.06]">STATUS</Table.Column>
-                            <Table.Column className="bg-transparent text-white/40 font-bold text-[11px] uppercase tracking-wider py-4 text-center border-b border-white/[0.06] pr-6">ACTIONS</Table.Column>
+                            <Table.Column isRowHeader className="bg-transparent text-white/40 font-bold text-[11px] uppercase tracking-wider py-4 border-b border-white/6 pl-6">LESSON</Table.Column>
+                            <Table.Column className="bg-transparent text-white/40 font-bold text-[11px] uppercase tracking-wider py-4 border-b border-white/6">CREATOR</Table.Column>
+                            <Table.Column className="bg-transparent text-white/40 font-bold text-[11px] uppercase tracking-wider py-4 border-b border-white/6">CATEGORY</Table.Column>
+                            <Table.Column className="bg-transparent text-white/40 font-bold text-[11px] uppercase tracking-wider py-4 border-b border-white/6">VISIBILITY</Table.Column>
+                            <Table.Column className="bg-transparent text-white/40 font-bold text-[11px] uppercase tracking-wider py-4 border-b border-white/6">STATUS</Table.Column>
+                            <Table.Column className="bg-transparent text-white/40 font-bold text-[11px] uppercase tracking-wider py-4 text-center border-b border-white/6 pr-6">ACTIONS</Table.Column>
                         </Table.Header>
 
                         <Table.Body emptyContent={<p className="text-xs text-white/30 py-8 font-semibold">No lessons found matching the filters.</p>}>
                             {lessons.map((lesson) => (
-                                <Table.Row key={lesson._id} className="border-b border-white/[0.03] hover:bg-white/[0.02] hover:shadow-[inset_4px_0_0_0_#a855f7] transition-all duration-150">
+                                <Table.Row key={lesson._id} className="border-b border-white/3 hover:bg-white/2hover:shadow-[inset_4px_0_0_0_#a855f7] transition-all duration-150">
 
                                     <Table.Cell className="py-4 pl-6">
                                         <div className="flex flex-col max-w-50">
