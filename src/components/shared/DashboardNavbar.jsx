@@ -34,14 +34,14 @@ const DashboardNavbar = () => {
         "admin": adminLinks
     };
 
-    const navItems = userAndAdminNavLinks[user?.role || "user"] || [];
+    const navItems = userAndAdminNavLinks[user?.userRole || "user"] || [];
 
     return (
         <div className="md:hidden w-full bg-[#0e0926]/85 backdrop-blur-md border-b border-white/10 px-4 py-3 flex items-center justify-between sticky top-0 z-50">
 
             {/* Brand Logo */}
             <div className="flex items-center gap-2">
-                <div className="w-8 h-8 rounded-lg bg-gradient-to-tr from-purple-600 to-indigo-600 flex items-center justify-center">
+                <div className="w-8 h-8 rounded-lg bg-linear-to-tr from-purple-600 to-indigo-600 flex items-center justify-center">
                     <LuSparkles className="text-white w-4 h-4 animate-pulse" />
                 </div>
                 <span className="text-white font-black text-sm tracking-wide">

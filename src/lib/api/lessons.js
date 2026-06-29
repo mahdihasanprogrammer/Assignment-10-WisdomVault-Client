@@ -31,6 +31,12 @@ export const getTopContributorsData = async ()=>{
     return result
 }
 
+// most saved lesson ; 
+export const getMostSavedLessons = async()=>{
+    const  result =await serverFetch(`/api/most-saved-lessons`);
+    return result
+}
+
 
 // admin api;
 export const getAllLessonsForAdmin = async (query)=>{

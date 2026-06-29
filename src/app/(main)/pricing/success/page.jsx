@@ -36,11 +36,11 @@ export default async function Success({ searchParams }) {
       <main className="py-10 bg-[#030014] text-white flex flex-col justify-center items-center px-4 relative overflow-hidden select-none">
         
         {/* ব্যাকগ্রাউন্ড নিওন অরা গ্লো */}
-        <div className="absolute w-[500px] h-[500px] bg-emerald-500/[0.03] blur-[150px] rounded-full pointer-events-none" />
-        <div className="absolute w-[300px] h-[300px] bg-purple-600/[0.02] blur-[130px] rounded-full pointer-events-none" />
+        <div className="absolute w-125 h-125 bg-emerald-500/3 blur-[150px] rounded-full pointer-events-none" />
+        <div className="absolute w-75 h-75 bg-purple-600/2 blur-[130px] rounded-full pointer-events-none" />
 
         {/* সাকসেস স্ল্যাব কন্টেইনার */}
-        <div className="w-full max-w-md border border-white/[0.06] bg-gradient-to-b from-white/[0.03] to-transparent backdrop-blur-2xl rounded-3xl p-8  shadow-[0_30px_100px_rgba(0,0,0,0.8)] text-center relative">
+        <div className="w-full max-w-md border border-white/6 bg-linear-to-b from-white/3 to-transparent backdrop-blur-2xl rounded-3xl p-8  shadow-[0_30px_100px_rgba(0,0,0,0.8)] text-center relative">
           
           {/* গ্লোয়িং সাকসেস আইকন অরবিট */}
           <div className="relative flex items-center justify-center w-20 h-20 mx-auto mb-8">
@@ -55,7 +55,7 @@ export default async function Success({ searchParams }) {
             <span className="text-[10px] font-mono tracking-[0.3em] text-emerald-400 uppercase font-bold">
               Payment Secured
             </span>
-            <h1 className="text-3xl sm:text-4xl font-black tracking-tight bg-gradient-to-r from-white via-white to-white/60 bg-clip-text text-transparent">
+            <h1 className="text-3xl sm:text-4xl font-black tracking-tight bg-linear-to-r from-white via-white to-white/60 bg-clip-text text-transparent">
               Upgrade Successful!
             </h1>
             <p className="text-xs sm:text-sm text-white/40 font-medium max-w-sm mx-auto">
@@ -64,7 +64,7 @@ export default async function Success({ searchParams }) {
           </div>
 
           {/* ট্রানজেকশন/কনফার্মেশন ডিটেইলস পড */}
-          <div className="w-full bg-white/[0.01] border border-white/[0.04] rounded-2xl p-4 space-y-3 mb-8 text-left">
+          <div className="w-full bg-white/1 border border-white/4rounded-2xl p-4 space-y-3 mb-8 text-left">
             
             <div className="flex items-start gap-3">
               <div className="p-2 bg-purple-500/10 border border-purple-500/20 rounded-lg text-purple-400 text-xs mt-0.5">
@@ -76,7 +76,7 @@ export default async function Success({ searchParams }) {
               </div>
             </div>
 
-            <div className="h-[1px] bg-white/[0.04]" />
+            <div className="h-1 bg-white/4" />
 
             <div className="text-[11px] text-white/30 leading-relaxed">
               Have any issues or questions? Reach out to our dedicated dispatch terminal at{' '}

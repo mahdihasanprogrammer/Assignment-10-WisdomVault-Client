@@ -25,14 +25,14 @@ const MainNavbar = () => {
   ];
 
   // 2. Conditional Protected Links Matrix (For normal users)
-  const protectedLinks = user?.role === 'user' ? [
+  const protectedLinks = user?.userRole === 'user' ? [
     { label: "Add Lesson", href: "/dashboard/add-lesson" },
     { label: "My Lessons", href: "/dashboard/my-lessons" },
     { label: "Favorites", href: "/dashboard/favorites" }
   ] : [];
 
   // ৩. ডাইনামিক ড্রপডাউন আইটেম ম্যাট্রিক্স (ইউজার এবং এডমিন রোল অনুযায়ী)
-  const dropdownItems = user?.role === 'admin'
+  const dropdownItems = user?.userRole === 'admin'
     ? [
       { label: "Profile", href: "/dashboard/admin/profile", icon: <FiUser className="text-purple-400" /> },
       { label: "Dashboard", href: "/dashboard/admin", icon: <FiLayout className="text-purple-400" /> },
@@ -97,7 +97,7 @@ const MainNavbar = () => {
               loading modules...
             </div>
           ) : (
-            user?.role === 'user' &&
+            user?.userRole === 'user' &&
             protectedLinks.map((link) => (
               <Link
                 key={link.href}
@@ -120,7 +120,7 @@ const MainNavbar = () => {
             </div>
           ) : (
             <>
-              {user?.role === "user" && (
+              {user?.userRole === "user" && (
                 <div>
                   {isPremium ? (
                     <span className="bg-linear-to-r from-amber-500/20 to-yellow-500/20 border border-amber-500/30 text-amber-400 text-[10px] font-black uppercase tracking-wider px-3.5 py-2 rounded-full flex items-center gap-1 shadow-lg shadow-amber-950/20">
@@ -158,7 +158,7 @@ const MainNavbar = () => {
                         <div className="px-4 py-2.5 border-b border-white/5">
                           <p className="text-lg font-bold text-white truncate">{user?.name || 'User'}</p>
                           <p className="text-xs text-purple-400/70 truncate mt-0.5">
-                            {user?.email} <span className="text-[10px] bg-purple-500/20 border border-purple-500/30 text-purple-300 uppercase px-1.5 py-0.5 rounded font-black ml-1">{user?.role}</span>
+                            {user?.email} <span className="text-[10px] bg-purple-500/20 border border-purple-500/30 text-purple-300 uppercase px-1.5 py-0.5 rounded font-black ml-1">{user?.userRole}</span>
                           </p>
                         </div>
 
@@ -241,15 +241,15 @@ const MainNavbar = () => {
             <>
               {/* মোবাইল মেনুতেও ডাইনামিক ড্যাশবোর্ড রুট ট্রিগার */}
               <Link
-                href={user.role === 'admin' ? "/dashboard/admin" : "/dashboard"}
+                href={user.userRole === 'admin' ? "/dashboard/admin" : "/dashboard"}
                 onClick={() => setIsMobileMenuOpen(false)}
                 className="text-xs font-medium text-white px-3 py-2 rounded-lg hover:bg-white/10"
               >
-                Dashboard ({user.role === 'admin' ? 'Admin' : 'User'})
+                Dashboard ({user?.userRole === 'admin' ? 'Admin' : 'User'})
               </Link>
 
               <div className="pt-2 mt-1 border-t border-white/10 flex flex-col gap-2">
-                {user.role === 'user' && (
+                {user.userRole === 'user' && (
                   !isPremium ? (
                     <Link href="/pricing" onClick={() => setIsMobileMenuOpen(false)} className="w-full text-center text-xs bg-linear-to-r from-purple-600 to-indigo-600 text-white py-2.5 rounded-xl font-bold shadow-md flex items-center justify-center gap-1.5">
                       Upgrade Premium <FiZap className="text-xs text-white" />
