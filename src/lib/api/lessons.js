@@ -26,6 +26,11 @@ export const getLessonsByAuthor = async(authorId) =>{
     return result
 }
 
+export const getTopContributorsData = async ()=>{
+    const result = await serverFetch(`/api/top-contributors`);
+    return result
+}
+
 
 // admin api;
 export const getAllLessonsForAdmin = async (query)=>{
