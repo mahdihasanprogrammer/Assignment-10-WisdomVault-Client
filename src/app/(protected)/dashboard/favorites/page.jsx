@@ -1,6 +1,6 @@
 import { getMyFavoritesLessons } from "@/lib/api/favorites";
 import { getUserSession } from "@/lib/session";
-import { Table, Button, Avatar } from '@heroui/react'; // সঠিক অ্যানাটমি অনুযায়ী ইমপোর্ট
+import { Table,  Avatar } from '@heroui/react'; 
 import { FiEye, FiTrash2, FiHeart } from 'react-icons/fi';
 import Link from 'next/link';
 import DeleteFavoriteLesson from "@/components/favorites/DeleteFavoriteLesson";
@@ -10,6 +10,7 @@ const MyFavoritesLessonsPage = async () => {
     if (!user?.id) return <div className="text-white p-8">Unauthorized access. Please login.</div>;
 
     const favorites = await getMyFavoritesLessons(user.id);
+    console.log('favorites', favorites)
 
     const formatDate = (dateString) => {
         return new Date(dateString).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
@@ -28,7 +29,7 @@ const MyFavoritesLessonsPage = async () => {
                 </div>
             </div>
 
-            {/* ফেভারিট লিস্ট এম্পটি কন্ডিশন */}
+   
             {(!favorites || favorites.length === 0) ? (
                 <div className="border border-white/5 bg-white/5 backdrop-blur-xl rounded-2xl p-12 text-center">
                     <p className="text-white/50 text-sm">No favorite lessons saved yet.</p>
@@ -55,11 +56,10 @@ const MyFavoritesLessonsPage = async () => {
                                 <Table.Cell className="py-4 px-6 font-semibold text-white/90 text-sm max-w-xs truncate">
                                     {lessonInfo?.lessonTitle || "Untitled Lesson"}
                                 </Table.Cell>
-                                {/* ইন্সট্রাক্টর প্রোফাইল — (Hero UI Avatar Anatomy ব্যবহার করে ফিক্সড) */}
+                          
                                 <Table.Cell className="py-4 px-6">
                                     <div className="flex items-center gap-3">
-                                        
-                                        {/* আপনার দেওয়া Avatar Anatomy এখানে যুক্ত করা হয়েছে */}
+                                    
                                         <Avatar className="w-8 h-8 rounded-lg border border-white/10 bg-purple-500/10 text-purple-400 flex items-center justify-center font-bold text-xs">
                                             <Avatar.Image
                                              src={lessonInfo?.creatorImage} 
@@ -73,15 +73,15 @@ const MyFavoritesLessonsPage = async () => {
                                         </div>
                                     </div>
                                 </Table.Cell>
-                                {/* সেভ ডেট */}
+                       
                                 <Table.Cell className="py-4 px-6 text-sm text-white/60">
                                     {formatDate(savedAt)}
                                 </Table.Cell>
-                                {/* অ্যাকশন বাটনস */}
+                        
                                 <Table.Cell className="py-4 px-6">
                                     <div className="flex items-center justify-center gap-2">
                                         
-                                        {/* ভিউ অ্যাকশন */}
+                                
                                         <Link href={`/public-lessons/${lessonId}`} className="bg-purple-500/10 hover:bg-purple-500/20 border border-purple-500/20 hover:border-purple-500/40 text-purple-400 rounded-xl w-8 h-8 flex items-center justify-center transition-all duration-300 active:scale-[0.93] cursor-pointer shadow-md shadow-purple-950/20" title="View Details">
                                             <FiEye className="w-4 h-4" />
                                         </Link>
