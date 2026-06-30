@@ -5,8 +5,10 @@ import { FiCheck, FiX, FiZap, FiShield } from 'react-icons/fi';
 import { FaCrown } from 'react-icons/fa';
 
 
+
+
 const PricingPage = () => {
-  
+
     // কম্প্যারিসন টেবিলের ৮টি রো ডাটা
     const features = [
         { name: "Number of lessons that can be created", free: "Up to 5 Lessons", premium: "Unlimited Lessons" },
@@ -57,7 +59,7 @@ const PricingPage = () => {
                     </div>
 
                     <div className="mb-6 flex items-baseline">
-                        <span className="text-5xl font-black bg-linear-to-r from-white via-white to-white/70 bg-clip-text text-transparent">৳১৫০০</span>
+                        <span className="text-5xl font-black bg-linear-to-r from-white via-white to-white/70 bg-clip-text text-transparent">৳1500</span>
                         <span className="text-purple-400 text-xs font-bold ml-2">/ No Renewal Fees</span>
                     </div>
 
@@ -66,11 +68,11 @@ const PricingPage = () => {
                     </p>
 
                     {/* HeroUI প্রিমিয়াম আপগ্রেড বাটন */}
-               
+                
                     <form action="/api/checkout_sessions" method="POST">
                         <section>
                             <button type="submit" role="link"
-                             className="w-full py-7 bg-linear-to-r from-purple-600 via-pink-600 to-purple-600 bg-[size:200%_auto] hover:bg-right transition-all duration-500 rounded-2xl text-xs font-black tracking-wider text-white shadow-[0_8px_30px_rgba(168,85,247,0.4)] uppercase">
+                             className="w-full py-7 bg-linear-to-r from-purple-600 via-pink-600 to-purple-600 bg-[size:200%_auto] hover:bg-right transition-all duration-500 rounded-2xl text-xs font-black tracking-wider text-white shadow-[0_8px_30px_rgba(168,85,247,0.4)] uppercase cursor-pointer">
                                  Upgrade to Premium
                             </button>
                         </section>
