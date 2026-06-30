@@ -81,7 +81,7 @@ const ManageUsersTable = ({ users: initialUsers = [] }) => {
   const [localUsers, setLocalUsers] = useState(initialUsers);
 
   const handleRoleToggle = async (user) => {
-    if (!user?._id || isUpdating) return;
+    if (!user?._id) return;
 
     const updateRole = user?.userRole === "admin" ? "user" : "admin";
 
@@ -92,11 +92,11 @@ const ManageUsersTable = ({ users: initialUsers = [] }) => {
       if (result?.modifiedCount > 0) {
         // ২. ইনস্ট্যান্ট ম্যাজিক রিফ্রেশ লজিক (স্টেট আপডেট)
         setLocalUsers((prevUsers) =>
-          prevUsers.map((u) => (u._id === user._id ? { ...u, role: updateRole } : u))
+          prevUsers.map((u) => (u._id === user._id ? { ...u, userRole: updateRole } : u))
         );
         
         toast.success(`Successfully converted to ${updateRole}!`);
-        router.refresh(); // ব্যাকএন্ড ক্যাশ ক্লিয়ারের জন্য
+        router.refresh(); 
       } else {
         toast.error("Failed to update user role.");
       }
