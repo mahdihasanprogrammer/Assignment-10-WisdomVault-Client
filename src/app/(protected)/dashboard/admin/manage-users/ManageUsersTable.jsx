@@ -83,7 +83,7 @@ const ManageUsersTable = ({ users: initialUsers = [] }) => {
   const handleRoleToggle = async (user) => {
     if (!user?._id || isUpdating) return;
 
-    const updateRole = user?.UserRole === "admin" ? "user" : "admin";
+    const updateRole = user?.userRole === "admin" ? "user" : "admin";
 
     try {
       setIsUpdating(true);
