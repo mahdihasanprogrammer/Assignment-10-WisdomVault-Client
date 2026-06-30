@@ -66,6 +66,6 @@ export const changeLessonFeatured = async (lessonId, currentStatus)=>{
 
 // delete lesson permanently;
 export const deleteLessonPermanently = async (lessonId) =>{
-    const result = await serverMutation(`/api/delete-lesson/${lessonId}`, {}, 'DELETE');
+    const result = await serverMutation(`/api/delete-lesson/${lessonId}/admin`, {}, 'DELETE');
     return result
 }

@@ -83,7 +83,7 @@ const ManageUsersTable = ({ users: initialUsers = [] }) => {
   const handleRoleToggle = async (user) => {
     if (!user?._id || isUpdating) return;
 
-    const updateRole = user?.role === "admin" ? "user" : "admin";
+    const updateRole = user?.UserRole === "admin" ? "user" : "admin";
 
     try {
       setIsUpdating(true);
@@ -134,7 +134,7 @@ const ManageUsersTable = ({ users: initialUsers = [] }) => {
                 </Table.Row>
               ) : (
                 localUsers.map((user, index) => {
-                  const isAdmin = user?.role === 'admin';
+                  const isAdmin = user?.userRole === 'admin';
                   const rowKey = user?._id?.$oid || user?._id || `user-row-${index}`;
 
                   return (
