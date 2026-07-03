@@ -1,8 +1,10 @@
 "use client";
 
-import { Select, ListBox, Button,  SearchField } from "@heroui/react";
+import { Select, ListBox, Button, SearchField } from "@heroui/react";
 import { FiSliders } from "react-icons/fi";
 import { useRouter, useSearchParams } from "next/navigation";
+import { IoCloseOutline } from "react-icons/io5";
+import { AnimatePresence, motion } from "framer-motion";
 
 const categories = [
     { id: "all", label: "All Categories" },
@@ -10,7 +12,7 @@ const categories = [
     { id: "career", label: "Career" },
     { id: "relationships", label: "Relationships" },
     { id: "mindset", label: "Mindset" },
-     { id: "mistakes-learned", label: "Mistakes Learned" },
+    { id: "mistakes-learned", label: "Mistakes Learned" },
 ];
 
 const emotionalTones = [
@@ -19,8 +21,8 @@ const emotionalTones = [
     { id: "sad", label: "Sad" },
     { id: "realization", label: "Realization" },
     { id: "gratitude", label: "Gratitude" },
-   
-  
+
+
 ];
 
 const FilteredLesson = () => {
@@ -42,8 +44,13 @@ const FilteredLesson = () => {
         if (emotionalTone !== "all") params.set("emotionalTone", emotionalTone);
         if (sortBy) params.set("sortBy", sortBy);
 
+        console.log('params', params)
         router.push(`?${params.toString()}`);
     };
+    const handleDeleteFiltering = () => {
+        router.push('?')
+
+    }
 
     return (
         <div className="w-full max-w-7xl mx-auto">
@@ -54,9 +61,9 @@ const FilteredLesson = () => {
                 {/* 1. Search Input (Takes more space) */}
                 <div className="w-full md:flex-1 min-w-70">
                     <SearchField
-                    defaultValue={searchParams.get("search") || ""}
-                    aria-label="search lessons"
-                    name="search">
+                        defaultValue={searchParams.get("search") || ""}
+                        aria-label="search lessons"
+                        name="search">
 
                         <SearchField.Group>
                             <SearchField.SearchIcon />
@@ -148,6 +155,29 @@ const FilteredLesson = () => {
                         <span>Apply</span>
                     </Button>
                 </div>
+
+                <AnimatePresence mode="wait">
+                    {searchParams.size > 0 && (
+                        <motion.div
+                            initial={{ y: -50, opacity: 0 }}   // উপরে থাকবে
+                            animate={{ y: 0, opacity: 1 }}     // নিচে নেমে আসবে
+                            exit={{ y: -50, opacity: 0 }}      // আবার উপরে উঠে hide হবে
+                            transition={{
+                                duration: 0.35,
+                                ease: "easeInOut",
+                            }}
+                            className="absolute right-1/2 translate-x-1/2 -bottom-7"
+                        >
+                            <Button
+                                onClick={handleDeleteFiltering}
+                                className="rounded-xl bg-linear-to-br from-red-400 to-pink-600"
+                            >
+                                <IoCloseOutline />
+                                Filter
+                            </Button>
+                        </motion.div>
+                    )}
+                </AnimatePresence>
             </form>
         </div>
     );

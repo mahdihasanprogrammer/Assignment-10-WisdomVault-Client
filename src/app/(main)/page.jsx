@@ -6,13 +6,18 @@ import WhyLearningMatters from '@/components/home/WhyLearningMatters';
 
 
 const MainHomePage = () => {
+
+    const dayStart = new Date();
+    dayStart.setHours(0, 0, 0, 0)
+    dayStart.setDate(dayStart.getDate())
+    console.log('dayStart', dayStart)
     return (
         <div>
-            <Hero/>
-            <FeaturedLessons/>
-            <WhyLearningMatters/>
-            <TopContributors/>
-            <MostSavedLessons/>
+            <Hero />
+            <FeaturedLessons />
+            <WhyLearningMatters />
+            <TopContributors />
+            <MostSavedLessons />
         </div>
     );
 };

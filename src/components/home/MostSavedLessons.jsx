@@ -2,18 +2,19 @@ import { getMostSavedLessons } from '@/lib/api/lessons';
 import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react';
-import { FiBookmark, FiUser, FiFolder, FiArrowUpRight } from 'react-icons/fi';
+import { FiBookmark,  FiFolder, FiArrowUpRight } from 'react-icons/fi';
 
 const MostSavedLessons = async () => {
-    // ডাটা ফেচিং
+   
     const savedLessons = await getMostSavedLessons() || [];
 
     return (
         <section className="container mx-auto py-24 px-4 sm:px-6 lg:px-8 bg-[#030012] w-full relative overflow-hidden">
-            {/* ব্যাকগ্রাউন্ড অরা গ্লো */}
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[350px] bg-purple-600/[0.02] blur-[160px] rounded-full pointer-events-none" />
+            
+            {/* background glow */}
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-175 h-87.5 bg-purple-600/2 blur-[160px] rounded-full pointer-events-none" />
 
-            <div className="max-w-7xl mx-auto relative z-10">
+            <div className="container mx-auto relative z-10">
                 
                 {/* 🎯 সেন্টার-অ্যালাইনড সেকশন হেডার */}
                 <div className="text-center mb-20 max-w-xl mx-auto space-y-3">
@@ -21,7 +22,7 @@ const MostSavedLessons = async () => {
                          Community Favorites
                     </span>
                     <h2 className="text-4xl sm:text-5xl font-black tracking-tight text-white">
-                        Most Saved <span className="bg-gradient-to-r from-purple-400 via-pink-400 to-amber-300 bg-clip-text text-transparent">Lessons</span>
+                        Most Saved <span className="bg-linear-to-r from-purple-400 via-pink-400 to-amber-300 bg-clip-text text-transparent">Lessons</span>
                     </h2>
                     <p className="text-xs text-white/40 font-medium leading-relaxed pt-1">
                         Explore the highest-rated resources bookmarked by students and creators worldwide.
@@ -34,7 +35,7 @@ const MostSavedLessons = async () => {
                         {savedLessons.map((lesson) => (
                             <div 
                                 key={lesson._id}
-                                className="relative border border-white/[0.05] rounded-2xl bg-gradient-to-b from-white/[0.02] to-transparent backdrop-blur-md p-5 flex flex-col justify-between group hover:border-white/[0.12] transition-all duration-300 shadow-[0_10px_30px_rgba(0,0,0,0.3)] h-full"
+                                className="relative border border-white/5 rounded-2xl bg-linear-to-b from-white/2 to-transparent backdrop-blur-md p-5 flex flex-col justify-between group hover:border-white/12 transition-all duration-300 shadow-[0_10px_30px_rgba(0,0,0,0.3)] h-full"
                             >
                                 <div>
                                     {/* টপ বার: ক্যাটাগরি ও নিওন বুকমার্ক কাউন্টার */}
@@ -51,7 +52,7 @@ const MostSavedLessons = async () => {
 
                                     {/* লেসন থাম্বনেইল কভার ইমেজ */}
                                     {lesson.thumbnail && (
-                                        <div className="relative w-full h-44 rounded-xl overflow-hidden border border-white/[0.06] mb-4 bg-white/5">
+                                        <div className="relative w-full h-44 rounded-xl overflow-hidden border border-white/6 mb-4 bg-white/5">
                                             <Image 
                                                 src={lesson.thumbnail} 
                                                 alt={lesson.title || "Lesson Thumbnail"}
@@ -69,12 +70,12 @@ const MostSavedLessons = async () => {
                                 </div>
 
                                 {/* বটম বার: ক্রিয়েটর প্রোফাইল এবং ডিটেইলস লিংক */}
-                                <div className="space-y-4 pt-4 border-t border-white/[0.04] mt-auto">
+                                <div className="space-y-4 pt-4 border-t border-white/4 mt-auto">
                                     <div className="flex items-center justify-between w-full">
                                         
                                         {/* ক্রিয়েটর পড */}
                                         <div className="flex items-center gap-2.5 min-w-0">
-                                            <div className="relative w-7 h-7 rounded-full overflow-hidden border border-white/[0.1] bg-white/5 flex-shrink-0">
+                                            <div className="relative w-7 h-7 rounded-full overflow-hidden border border-white/1 bg-white/5 flex shrink-0">
                                                 {lesson.creatorImage ? (
                                                     <Image
                                                         src={lesson.creatorImage}
@@ -89,7 +90,7 @@ const MostSavedLessons = async () => {
                                                     </div>
                                                 )}
                                             </div>
-                                            <span className="text-xs font-medium text-white/50 truncate max-w-[120px]">
+                                            <span className="text-xs font-medium text-white/50 truncate max-w-30">
                                                 by {lesson.creatorName || "Anonymous"}
                                             </span>
                                         </div>
@@ -107,7 +108,7 @@ const MostSavedLessons = async () => {
                         ))}
                     </div>
                 ) : (
-                    <div className="text-center py-20 border border-dashed border-white/[0.05] rounded-3xl text-xs text-white/20 font-mono">
+                    <div className="text-center py-20 border border-dashed border-white/5 rounded-3xl text-xs text-white/20 font-mono">
                         No highly saved lessons recorded yet.
                     </div>
                 )}

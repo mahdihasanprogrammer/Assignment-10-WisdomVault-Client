@@ -37,7 +37,7 @@ const SignUpPage = () => {
         ...(role === "user" && {isPremium: false})
       });
 
-      console.log('data', data)
+    
 
       if (data) {
         router.push('/signin');

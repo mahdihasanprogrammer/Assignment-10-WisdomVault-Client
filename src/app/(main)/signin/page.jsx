@@ -11,6 +11,7 @@ import { LuSparkles } from 'react-icons/lu';
 import { FcGoogle } from 'react-icons/fc';
 
 const SignInPage = () => {
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL
 
   const [loading, setLoading] = useState(false);
   const [googleLoading, setGoogleLoading] = useState(false);
@@ -29,15 +30,24 @@ const SignInPage = () => {
         email: formData.email,
         password: formData.password,
       });
-         console.log('data', data)
 
-      if (data?.user?.userRole==='user') {
-        router.push('/')
+
+    
+      console.log('name',data?.user)
+
+      if(data?.token){
+
+    await fetch(`${baseUrl}/api/send-email?name=${data?.user?.name}&email=${data?.user?.email}`, {
+          method: 'POST',
+          headers: {
+            "Content-type": "application/json"
+          }
+        });
+       
+      
+
         toast.success("Welcome back! 🚀");
-      }
-      if(data?.user?.userRole === "admin"){
-        toast.success("Welcome back! 🚀");
-        router.push('/dashboard/admin')
+        router.push(data?.user?.userRole === "admin" ? '/dashboard/admin' : "/")
       }
       if (error) {
         toast.error(error.message);

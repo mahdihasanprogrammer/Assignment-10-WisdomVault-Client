@@ -9,7 +9,7 @@ const MyFavoritesLessonsPage = async () => {
     const user = await getUserSession();
     if (!user?.id) return <div className="text-white p-8">Unauthorized access. Please login.</div>;
 
-    const favorites = await getMyFavoritesLessons(user.id);
+    const favorites = await getMyFavoritesLessons(user?.id);
     console.log('favorites', favorites)
 
     const formatDate = (dateString) => {
@@ -18,13 +18,14 @@ const MyFavoritesLessonsPage = async () => {
 
     return (
         <div className="p-4 sm:p-8 bg-slate-950 min-h-screen text-white space-y-6">
-            {/* হেডার সেকশন */}
+            
+            {/* header section */}
             <div className="flex items-center gap-3 border-b border-white/5 pb-5">
                 <div className="bg-purple-500/10 p-3 rounded-xl border border-purple-500/20 text-purple-400 shadow-lg shadow-purple-500/5">
                     <FiHeart className="w-6 h-6 fill-purple-400" />
                 </div>
                 <div>
-                    <h1 className="text-2xl font-bold tracking-tight bg-gradient-to-r from-white to-white/60 bg-clip-text text-transparent">My Favorite Lessons</h1>
+                    <h1 className="text-2xl font-bold tracking-tight bg-linear-to-r from-white to-white/60 bg-clip-text text-transparent">My Favorite Lessons</h1>
                     <p className="text-xs text-white/40 mt-0.5">Manage and revisit your bookmarked study materials</p>
                 </div>
             </div>
