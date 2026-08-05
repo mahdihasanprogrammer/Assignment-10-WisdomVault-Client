@@ -44,15 +44,11 @@ const MainNavbar = () => {
     ];
 
   const handleLogout = async () => {
-   
     setIsDropdownOpen(false);
     setIsMobileMenuOpen(false);
-    await authClient.signOut({
-    
-    });
-    router.refresh()
-     router.push("/signin")
-
+    await authClient.signOut();
+    router.push("/signin");
+    router.refresh();
   };
 
   // Base Shared Glassmorphic Styles

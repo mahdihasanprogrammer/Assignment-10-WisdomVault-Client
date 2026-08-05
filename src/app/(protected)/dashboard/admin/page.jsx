@@ -1,5 +1,4 @@
 import React from 'react';
-import Image from 'next/image';
 import { getAdminDashboardInfo } from '@/lib/api/lessons';
 import { Avatar } from '@heroui/react';
 import { FiUsers, FiBookOpen, FiAlertTriangle, FiCalendar, FiAward } from 'react-icons/fi';
@@ -101,10 +100,7 @@ const DashboardAdminHomePage = async () => {
                                         <Avatar className="w-8 h-8 ring-1 ring-white/10 overflow-hidden rounded-full bg-purple-500/10">
                                             <Avatar.Image
                                                 src={contribute.creatorImage || "https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=100"}
-                                                alt={contribute.creatorName}
-                                                width={32}
-                                                height={32}
-                                                unoptimized
+                                                alt={contribute.creatorName || "User"}
                                                 className="object-cover w-full h-full"
                                             />
                                             <Avatar.Fallback className="text-[10px] text-white font-bold uppercase">

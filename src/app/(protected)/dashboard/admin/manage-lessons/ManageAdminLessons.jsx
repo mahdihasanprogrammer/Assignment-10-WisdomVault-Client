@@ -1,7 +1,6 @@
 "use client";
 
 import React from 'react';
-import Image from 'next/image';
 import { Table, Chip, Avatar, Tooltip, Button } from '@heroui/react';
 import { FiStar, FiCheckCircle, FiX } from 'react-icons/fi';
 import { toast } from 'sonner';
@@ -105,18 +104,21 @@ const ManageAdminLessons = ({ initialLessons }) => {
                 </div>
 
                 {hasActiveQuery && (
-                    <div
+                    <button
+                        type="button"
                         onClick={handleResetFilters}
-                        className="flex items-center gap-2 px-3.5 py-1.5 bg-purple-500/10 border border-purple-500/30 text-purple-200 rounded-xl text-xs font-bold cursor-pointer transition-all shadow-sm select-none hover:bg-purple-500/20"
+                        className="group flex items-center gap-2 px-3.5 py-2 bg-[#0e0726]/90 hover:bg-[#170b3d] border border-rose-500/30 hover:border-rose-400/60 text-rose-300 hover:text-white rounded-xl text-xs font-bold cursor-pointer transition-all duration-300 shadow-md backdrop-blur-md select-none active:scale-95"
                     >
-                        <span>Clear Filter</span>
-                        <FiX className="w-3.5 h-3.5" />
-                    </div>
+                        <span className="w-4 h-4 rounded-md bg-rose-500/10 border border-rose-500/20 flex items-center justify-center text-rose-400 group-hover:rotate-90 transition-transform duration-300">
+                            <FiX className="w-3 h-3" />
+                        </span>
+                        <span>Clear Filters</span>
+                    </button>
                 )}
             </div>
 
             {/* Table Component */}
-            <Table removeWrapper aria-label="Lessons management table" className="text-white">
+            <Table aria-label="Lessons management table" className="text-white">
                 <Table.ScrollContainer>
                     <Table.Content>
                         <Table.Header>
@@ -143,12 +145,8 @@ const ManageAdminLessons = ({ initialLessons }) => {
                                         <div className="flex items-center gap-2.5">
                                             <Avatar className="w-7 h-7 ring-1 ring-white/10 overflow-hidden rounded-full">
                                                 <Avatar.Image
-                                                    as={Image}
                                                     src={lesson.creatorImage || "https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=100"}
                                                     alt={lesson.creatorName || "User"}
-                                                    width={28}
-                                                    height={28}
-                                                    unoptimized
                                                     className="object-cover w-full h-full"
                                                 />
                                             </Avatar>
@@ -201,7 +199,7 @@ const ManageAdminLessons = ({ initialLessons }) => {
                                         <div className="flex items-center justify-center gap-2">
                                             {/* Approve Button */}
                                             {lesson.status !== 'Approved' && (
-                                                <Tooltip content="Approve lesson" delay={0} closeDelay={0} size="sm">
+                                                <Tooltip delay={0} closeDelay={0} size="sm">
                                                     <Button
                                                         aria-label="Approve this lesson"
                                                         className="p-1.5 text-white/40 hover:text-emerald-400 hover:bg-emerald-500/10 rounded-lg transition-all cursor-pointer bg-transparent size-8"
@@ -210,7 +208,7 @@ const ManageAdminLessons = ({ initialLessons }) => {
                                                         <FiCheckCircle className="w-4 h-4" />
                                                     </Button>
                                                     <Tooltip.Content>
-                                                        <p>This is a tooltip</p>
+                                                        <p>Approve lesson</p>
                                                     </Tooltip.Content>
                                                 </Tooltip>
                                             )}
@@ -232,14 +230,10 @@ const ManageAdminLessons = ({ initialLessons }) => {
 
                                             {/* ডিলিট বাটন (ডিফল্ট রেড কালার ও নো-ব্যাকগ্রাউন্ড স্কিম) */}
                                             <div className="delete-btn-red-only">
-                                                <Tooltip content="Delete Lesson" delay={0} closeDelay={0} size="sm">
-                                                    <div>
-                                                        <PermanentlyDeleteLessonModal
-                                                            lesson={lesson}
-                                                            onDeleteSuccess={handleLessonDeleteSuccess}
-                                                        />
-                                                    </div>
-                                                </Tooltip>
+                                                <PermanentlyDeleteLessonModal
+                                                    lesson={lesson}
+                                                    onDeleteSuccess={handleLessonDeleteSuccess}
+                                                />
                                             </div>
                                         </div>
                                     </Table.Cell>

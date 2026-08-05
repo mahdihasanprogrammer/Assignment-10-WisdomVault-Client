@@ -31,26 +31,17 @@ const SignInPage = () => {
         password: formData.password,
       });
 
-
-    
-      console.log('name',data?.user)
-
-      if(data?.token){
-
-    await fetch(`${baseUrl}/api/send-email?name=${data?.user?.name}&email=${data?.user?.email}`, {
-          method: 'POST',
-          headers: {
-            "Content-type": "application/json"
-          }
-        });
-       
-      
-
-        toast.success("Welcome back! 🚀");
-        router.push(data?.user?.userRole === "admin" ? '/dashboard/admin' : "/")
-      }
       if (error) {
-        toast.error(error.message);
+        toast.error(error.message || "Failed to sign in");
+        return;
+      }
+
+      if (data?.user) {
+        toast.success("Welcome back! 🚀");
+        const role = data.user.userRole || data.user.role;
+        const targetRoute = role === "admin" ? "/dashboard/admin" : "/dashboard";
+        router.push(targetRoute);
+        router.refresh();
       }
     } catch (err) {
       toast.error(err.message || 'Something went wrong');
