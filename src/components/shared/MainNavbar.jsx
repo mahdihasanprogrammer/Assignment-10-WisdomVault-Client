@@ -57,7 +57,7 @@ const MainNavbar = () => {
   const inactiveLinkStyle = "text-white/90 border-transparent hover:text-purple-300 hover:bg-linear-to-tr hover:from-purple-500/15 hover:to-indigo-500/15 hover:backdrop-blur-md hover:border-purple-500/40";
 
   return (
-    <nav className="border-b border-white/10 sticky top-0 z-50 bg-[#080418]/70 backdrop-blur-xl shadow-2xl">
+    <nav className="border-b border-white/10 sticky top-0 z-[100] bg-[#080418]/80 backdrop-blur-xl shadow-2xl">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
 
         {/* BRAND IDENTITY */}

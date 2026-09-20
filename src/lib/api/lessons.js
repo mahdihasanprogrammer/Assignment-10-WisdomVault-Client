@@ -39,6 +39,13 @@ export const getMostSavedLessons = async()=>{
 }
 
 
+// Related lessons by category ;
+export const getRelatedLessonsByCategory = async(category)=>{
+    const result = await serverFetch(`/api/related-lessons/${category}`);
+    return result;
+
+}
+
 // admin api;
 export const getAllLessonsForAdmin = async (query)=>{
     const result = await protectedFetch(`/api/all-lessons/admin?${query}`);

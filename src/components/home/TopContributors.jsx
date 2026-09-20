@@ -157,8 +157,52 @@ const TopContributors = async () => {
                         })}
                     </div>
                 ) : (
-                    <div className="text-center py-12 border border-dashed border-white/5 rounded-2xl text-xs text-white/20 font-mono">
-                        No platform contributors recorded yet.
+                    <div className="relative max-w-lg mx-auto mt-4">
+                        {/* Background glow */}
+                        <div className="absolute inset-0 rounded-3xl bg-purple-600/5 blur-2xl pointer-events-none" />
+
+                        <div className="relative border border-white/6 rounded-3xl p-14 bg-linear-to-b from-white/[0.02] to-transparent backdrop-blur-xl flex flex-col items-center gap-6 overflow-hidden">
+                            {/* Decorative top shimmer line */}
+                            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-32 h-px bg-linear-to-r from-transparent via-purple-500/50 to-transparent" />
+
+                            {/* Icon stack */}
+                            <div className="relative">
+                                <div className="w-20 h-20 rounded-2xl bg-linear-to-b from-amber-500/10 to-purple-500/5 border border-amber-500/15 flex items-center justify-center shadow-2xl shadow-amber-950/20">
+                                    <FaAward className="w-9 h-9 text-amber-400/40" />
+                                </div>
+                                {/* Pulsing ring */}
+                                <div className="absolute -inset-1 rounded-2xl border border-amber-500/10 animate-pulse" />
+                                {/* Crown top-right badge */}
+                                <div className="absolute -top-2 -right-2 w-7 h-7 rounded-xl bg-[#0d071f] border border-purple-500/20 flex items-center justify-center">
+                                    <FaCrown className="w-3 h-3 text-purple-400/50" />
+                                </div>
+                            </div>
+
+                            {/* Text */}
+                            <div className="text-center space-y-2.5">
+                                <h3 className="text-xl font-black text-white/40 tracking-tight">
+                                    No Contributors Yet
+                                </h3>
+                                <p className="text-xs text-white/25 font-medium leading-relaxed max-w-[260px]">
+                                    The Hall of Fame is waiting to be claimed. Be the first to publish lessons and earn your spot on the leaderboard.
+                                </p>
+                            </div>
+
+                            {/* Stat pills */}
+                            <div className="flex items-center gap-3">
+                                <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-purple-500/5 border border-purple-500/10">
+                                    <FaBookOpen className="text-[10px] text-purple-400/40" />
+                                    <span className="text-[10px] font-mono text-white/20 tracking-widest uppercase">0 Lessons</span>
+                                </div>
+                                <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-amber-500/5 border border-amber-500/10">
+                                    <FaCrown className="text-[10px] text-amber-400/40" />
+                                    <span className="text-[10px] font-mono text-white/20 tracking-widest uppercase">0 Creators</span>
+                                </div>
+                            </div>
+
+                            {/* Bottom shimmer */}
+                            <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-32 h-px bg-linear-to-r from-transparent via-amber-500/30 to-transparent" />
+                        </div>
                     </div>
                 )}
             </div>

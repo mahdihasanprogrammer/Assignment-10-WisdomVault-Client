@@ -122,7 +122,20 @@ const DashboardAdminHomePage = async () => {
                                 </div>
                             ))
                         ) : (
-                            <p className="text-xs text-white/30 text-center py-6 font-semibold">No contributors found yet.</p>
+                            <div className="flex flex-col items-center justify-center py-10 gap-4">
+                                <div className="relative">
+                                    <div className="w-16 h-16 rounded-2xl bg-amber-500/5 border border-amber-500/15 flex items-center justify-center shadow-lg shadow-amber-950/20">
+                                        <FiAward className="w-7 h-7 text-amber-500/40" />
+                                    </div>
+                                    <div className="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-purple-500/20 border border-purple-500/30 animate-pulse" />
+                                </div>
+                                <div className="text-center space-y-1.5">
+                                    <p className="text-sm font-bold text-white/40 tracking-tight">No contributors yet</p>
+                                    <p className="text-[11px] text-white/20 font-medium max-w-[180px] leading-relaxed">
+                                        Creators will appear here once lessons are published.
+                                    </p>
+                                </div>
+                            </div>
                         )}
                     </div>
                 </div>
