@@ -50,18 +50,7 @@ const MostSavedLessons = async () => {
                                         </div>
                                     </div>
 
-                                    {/* লেসন থাম্বনেইল কভার ইমেজ */}
-                                    {lesson.thumbnail && (
-                                        <div className="relative w-full h-44 rounded-xl overflow-hidden border border-white/6 mb-4 bg-white/5">
-                                            <Image 
-                                                src={lesson.thumbnail} 
-                                                alt={lesson.title || "Lesson Thumbnail"}
-                                                fill
-                                                className="object-cover group-hover:scale-105 transition-transform duration-500"
-                                                sizes="(max-w-768px) 100vw, 350px"
-                                            />
-                                        </div>
-                                    )}
+
 
                                     {/* লেসন টাইটেল */}
                                     <h3 className="text-base font-bold text-white/90 line-clamp-2 group-hover:text-white transition-colors tracking-tight mb-4 font-sans">
